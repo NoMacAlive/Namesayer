@@ -3,32 +3,26 @@ package namesayer.recording;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import namesayer.NameSelectScreenController;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static namesayer.recording.Config.CREATIONS_FOLDER;
-import static namesayer.recording.Config.RATINGS;
-import static namesayer.recording.Config.SAVED_RECORDINGS;
-import static namesayer.recording.Config.TEMP_RECORDINGS;
+import static namesayer.recording.Config.*;
 
-public class NameStorageManager {
+public class NameStorageManager{
 
     private static final Pattern REGEX_NAME_PARSER = Pattern.compile("[a-zA-Z]+(?:\\.wav)");
     private static NameStorageManager instance = null;
@@ -90,7 +84,8 @@ public class NameStorageManager {
     /**
      * Create new database hierarchy
      */
-    public void initialize(Path folderPath, Button button) {
+
+    public void initialize(Path jkl,Button jk) {
         try {
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
                 Files.createDirectory(CREATIONS_FOLDER);
@@ -104,7 +99,7 @@ public class NameStorageManager {
         }
         //Ensure non-blocking
         Thread thread = new Thread(() -> {
-            try (Stream<Path> paths = Files.walk(folderPath)) {
+            try (Stream<Path> paths = Files.walk(DATA_BASE)) {
                 Map<String, Name> initializedNames = new HashMap<>();
                 paths.filter(Files::isRegularFile)
                      .forEach(path -> {
@@ -144,7 +139,7 @@ public class NameStorageManager {
                      });
                 //sorts the final list
                 Collections.sort(namesList);
-                Platform.runLater(() -> button.setDisable(false));
+//                Platform.runLater(() -> button.setDisable(false));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -182,5 +177,22 @@ public class NameStorageManager {
         return list;
     }
 
+    //This method returns a Name with the firstName and lastName provided if any one of them doesn't exist in the database
+//    return null
+    public Name fusingTwoNames(String firstName,String lastName){
+        Name first=null;
+        Name last=null;
+        for(Name a:namesList){
+            if(a.getName().equals(firstName)){
+                first = a;
+            }else if(a.getName().equals(lastName)){
+                last = a;
+            }
+        }
+        if(first.equals(null)||last.equals(null)) {
+            return null;
+        }
+        return new Name(first,last);
+    }
 
 }

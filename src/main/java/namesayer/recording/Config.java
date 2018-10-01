@@ -12,4 +12,5 @@ public class Config {
     public static final Path SAVED_RECORDINGS = Paths.get("saved");
     public static final String WAV_EXTENSION = ".wav";
     public static final Path RATINGS = Paths.get("ratings.txt");
+    public static final Path DATA_BASE  = Paths.get("database");
 }

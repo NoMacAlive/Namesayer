@@ -50,13 +50,18 @@
         <JFXListView fx:id="nameListView" depth="1" stylesheets="@css/Material.css" verticalGap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" />
         <JFXToggleButton fx:id="randomToggle" onAction="#setRandom" text="Randomize" GridPane.rowIndex="3" />
         <JFXButton fx:id="nextButton" buttonType="RAISED" onMouseClicked="#onNextButtonClicked" prefHeight="32.0" prefWidth="114.0" ripplerFill="#c1daa2" style="-fx-background-color: #f2f2f2;" text="Next" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-      <JFXButton buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#onSelectAllButtonClicked" style="-fx-background-color: #f2f2f2;" text="Select all" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <JFXButton buttonType="RAISED" disable="true" mnemonicParsing="false" onMouseClicked="#onSelectAllButtonClicked" style="-fx-background-color: #f2f2f2;" text="Select all" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets right="100.0" />
          </GridPane.margin></JFXButton>
-      <JFXButton buttonType="RAISED" mnemonicParsing="false" onMouseClicked="#onSelectNoneButtonClicked" style="-fx-background-color: #f2f2f2;" text="Select none" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <JFXButton buttonType="RAISED" disable="true" mnemonicParsing="false" onMouseClicked="#onSelectNoneButtonClicked" style="-fx-background-color: #f2f2f2;" text="Select none" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="100.0" />
          </GridPane.margin></JFXButton>
+      <JFXButton fx:id="searchingButton" onAction="#onSearchignButtonClicked" prefHeight="112.0" prefWidth="690.0" text="Search with Full Name" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </JFXButton>
     </children>
 </GridPane>

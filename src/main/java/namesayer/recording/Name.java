@@ -41,6 +41,12 @@ public class Name implements Comparable<Name> {
         });
     }
 
+    //this constructor returns a name of the combination of the first name and the last name
+    public Name(Name first,Name last){
+//        temporarily like this!
+        this(first.getName()+""+last.getName(),null);
+    }
+
     /**
      * Syncs the rating properties with the file
      */

@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static namesayer.recording.Config.DATA_BASE;
+
 public class MenuScreenController {
 
     @FXML public JFXProgressBar MicrophoneVolume;
@@ -36,6 +38,9 @@ public class MenuScreenController {
     }
 
     public void onPracticeModeClicked(MouseEvent mouseEvent) throws IOException {
+        NameStorageManager storageManager = NameStorageManager.getInstance();
+        storageManager.clear();
+        storageManager.initialize(DATA_BASE, practiceButton);
         Scene scene = practiceButton.getScene();
         Parent root = FXMLLoader.load(getClass().getResource("/NameSelectScreen.fxml"));
         scene.setRoot(root);
@@ -105,18 +110,21 @@ public class MenuScreenController {
     }
 
     public void onSelectAudioDatabaseFolder(MouseEvent mouseEvent) {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Select the audio database for your names");
-        File selectedDirectory = chooser.showDialog(practiceButton.getScene().getWindow());
-        if (selectedDirectory != null) {
-            NameStorageManager storageManager = NameStorageManager.getInstance();
-            storageManager.clear();
-            storageManager.initialize(selectedDirectory.toPath(), practiceButton);
-            loadNewDataBaseButton.setDisable(true);
-            loadExistingDataBaseButton.setDisable(true);
-            practiceButton.setDisable(false);
-        }
     }
+//
+//    public void onSelectAudioDatabaseFolder(MouseEvent mouseEvent) {
+//        DirectoryChooser chooser = new DirectoryChooser();
+//        chooser.setTitle("Select the audio database for your names");
+//        File selectedDirectory = chooser.showDialog(practiceButton.getScene().getWindow());
+//        if (selectedDirectory != null) {
+//            NameStorageManager storageManager = NameStorageManager.getInstance();
+//            storageManager.clear();
+//            storageManager.initialize(selectedDirectory.toPath(), practiceButton);
+//            loadNewDataBaseButton.setDisable(true);
+//            loadExistingDataBaseButton.setDisable(true);
+//            practiceButton.setDisable(false);
+//        }
+//    }
 
 
 }

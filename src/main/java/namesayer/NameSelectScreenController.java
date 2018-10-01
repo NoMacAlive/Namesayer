@@ -7,24 +7,33 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 import namesayer.recording.Name;
 import namesayer.recording.NameStorageManager;
 import namesayer.util.EmptySelectionModel;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class NameSelectScreenController {
 
+    public JFXButton searchingButton;
     @FXML private GridPane parentPane;
     @FXML private JFXButton nextButton;
     @FXML private JFXTextField nameSearchBar;
@@ -126,5 +135,74 @@ public class NameSelectScreenController {
 
     public void onSelectNoneButtonClicked(MouseEvent mouseEvent) {
         listOfNames.forEach(name -> name.setSelected(false));
+    }
+
+    public void onSearchignButtonClicked(ActionEvent actionEvent) {
+        // Create the custom dialog.
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Seaching Full Name");
+        dialog.setHeaderText("Looking for a name with first name and second name:");
+
+// Set the icon (must be included in the project).
+//        dialog.setGraphic(new ImageView(this.getClass().getResource("login.png").toString()));
+
+// Set the button types.
+        ButtonType loginButtonType = new ButtonType("Search", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+// Create the FirstName and LastName labels and fields.
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField FirstName = new TextField();
+        FirstName.setPromptText("FirstName");
+        PasswordField LastName = new PasswordField();
+        LastName.setPromptText("LastName");
+
+        grid.add(new Label("FirstName:"), 0, 0);
+        grid.add(FirstName, 1, 0);
+        grid.add(new Label("LastName:"), 0, 1);
+        grid.add(LastName, 1, 1);
+
+// Enable/Disable login button depending on whether a FirstName was entered.
+        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+        loginButton.setDisable(true);
+
+// Do some validation (using the Java 8 lambda syntax).
+        FirstName.textProperty().addListener((observable, oldValue, newValue) -> {
+            loginButton.setDisable(newValue.trim().isEmpty());
+        });
+
+        dialog.getDialogPane().setContent(grid);
+
+// Request focus on the FirstName field by default.
+        Platform.runLater(() -> FirstName.requestFocus());
+
+// Convert the result to a FirstName-LastName-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == loginButtonType) {
+                return new Pair<>(FirstName.getText(), LastName.getText());
+            }
+            return null;
+        });
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+
+        result.ifPresent(FirstNameLastName -> {
+//            System.out.println("FirstName=" + FirstNameLastName.getKey() + ", LastName=" + FirstNameLastName.getValue());
+            Name fusedName = nameStorageManager.fusingTwoNames(FirstNameLastName.getKey(),FirstNameLastName.getValue());
+            if(fusedName.equals(null)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("WARNING!");
+                alert.setContentText("There are no such names in the database!");
+
+                alert.showAndWait();
+
+            }
+        });
+
     }
 }
