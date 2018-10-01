@@ -158,7 +158,7 @@ public class NameSelectScreenController {
 
         TextField FirstName = new TextField();
         FirstName.setPromptText("FirstName");
-        PasswordField LastName = new PasswordField();
+        TextField LastName = new TextField();
         LastName.setPromptText("LastName");
 
         grid.add(new Label("FirstName:"), 0, 0);
@@ -192,17 +192,22 @@ public class NameSelectScreenController {
 
         result.ifPresent(FirstNameLastName -> {
 //            System.out.println("FirstName=" + FirstNameLastName.getKey() + ", LastName=" + FirstNameLastName.getValue());
-            Name fusedName = nameStorageManager.fusingTwoNames(FirstNameLastName.getKey(),FirstNameLastName.getValue());
-            if(fusedName.equals(null)){
+            Name fusedName = null;
+            try {
+                fusedName = nameStorageManager.fusingTwoNames(FirstNameLastName.getKey().toLowerCase(),FirstNameLastName.getValue().toLowerCase());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(fusedName==null){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning Dialog");
                 alert.setHeaderText("WARNING!");
                 alert.setContentText("There are no such names in the database!");
-
                 alert.showAndWait();
-
             }
-        });
+            nameStorageManager.addNewNametoList(fusedName);
+            initialize();
+            });
 
     }
 }

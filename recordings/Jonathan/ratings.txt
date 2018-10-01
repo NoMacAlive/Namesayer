@@ -1,0 +1,4 @@
+#Ratings
+#Mon Oct 01 20:41:12 NZDT 2018
+zkon584_2-5-2018_15-26-44_jonathan=3.0
+se206_2-5-2018_15-47-27_Jonathan=3.0

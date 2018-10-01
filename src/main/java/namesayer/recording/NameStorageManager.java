@@ -179,20 +179,24 @@ public class NameStorageManager{
 
     //This method returns a Name with the firstName and lastName provided if any one of them doesn't exist in the database
 //    return null
-    public Name fusingTwoNames(String firstName,String lastName){
+    public Name fusingTwoNames(String firstName,String lastName) throws IOException {
         Name first=null;
         Name last=null;
         for(Name a:namesList){
-            if(a.getName().equals(firstName)){
+            if(a.getName().toLowerCase().equals(firstName)){
                 first = a;
-            }else if(a.getName().equals(lastName)){
+            }else if(a.getName().toLowerCase().equals(lastName)){
                 last = a;
             }
         }
-        if(first.equals(null)||last.equals(null)) {
+        if(first==null||last==null) {
             return null;
         }
         return new Name(first,last);
+    }
+
+    public void addNewNametoList(Name newName){
+        namesList.add(0,newName);
     }
 
 }

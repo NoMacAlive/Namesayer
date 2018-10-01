@@ -12,12 +12,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
-import static namesayer.recording.Config.RATINGS;
-import static namesayer.recording.Config.SAVED_RECORDINGS;
-import static namesayer.recording.Config.TEMP_RECORDINGS;
-import static namesayer.recording.Config.WAV_EXTENSION;
+import static namesayer.recording.Config.*;
 
 public class Name implements Comparable<Name> {
 
@@ -42,9 +40,12 @@ public class Name implements Comparable<Name> {
     }
 
     //this constructor returns a name of the combination of the first name and the last name
-    public Name(Name first,Name last){
+    public Name(Name first,Name last) throws IOException {
 //        temporarily like this!
-        this(first.getName()+""+last.getName(),null);
+        this(first.getName()+" "+last.getName(), Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
+        if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()))) {
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
+        }
     }
 
     /**

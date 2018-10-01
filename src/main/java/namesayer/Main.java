@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import static namesayer.recording.Config.DATA_BASE;
+
 
 public class Main extends Application {
 
@@ -16,6 +18,7 @@ public class Main extends Application {
         primaryStage.setTitle("Name Sayer");
         primaryStage.setScene(new Scene(root, 800, 700));
         primaryStage.show();
+       System.out.println(DATA_BASE.toAbsolutePath());
     }
 
 
