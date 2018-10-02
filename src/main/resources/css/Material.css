@@ -1,0 +1,97 @@
+.jfx-snackbar-content {
+    -fx-background-color: #323232;
+    -fx-padding: 5;
+    -fx-spacing: 5;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+}
+
+.jfx-snackbar-action {
+    -fx-text-fill: #ff4081;
+}
+
+.background {
+    -fx-background-color: #673AB7;
+}
+
+.shadow {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}
+
+.with-border {
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 0.5;
+}
+
+.header-text {
+    -fx-text-fill: #212121;
+    -fx-font-size: 20;
+}
+
+.card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 4;
+    -fx-background-insets: 10;
+}
+
+.jfx-list-view .scroll-bar:horizontal .track,
+.jfx-list-view .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius: 2em;
+}
+
+.jfx-list-view .scroll-bar:horizontal .increment-button,
+.jfx-list-view .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+}
+
+.jfx-list-view .scroll-bar:vertical .increment-button,
+.jfx-list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+}
+
+.jfx-list-view .scroll-bar .increment-arrow,
+.jfx-list-view .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.jfx-list-view .scroll-bar:horizontal .thumb,
+.jfx-list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+.jfx-list-view {
+    -fx-background-color: transparent;
+}
+
+.expanded-gap {
+    -jfx-expanded: true;
+    -jfx-vertical-gap: 1em;
+}
+
+.rating > .container > .button {
+    -fx-background-color: transparent;
+    -fx-background-image: url("unselected-star.png");
+    -fx-padding: 16 16;
+    -fx-background-image-repeat: no-repeat;
+}
+
+.rating > .container > .button.strong {
+    -fx-background-image: url("selected-star.png");
+}
+
+.jfx-spinner:determinate .percentage {
+    -fx-fill: transparent;
+}
+
