@@ -58,10 +58,19 @@
          <GridPane.margin>
             <Insets left="100.0" />
          </GridPane.margin></JFXButton>
-      <JFXButton fx:id="searchingButton" onAction="#onSearchignButtonClicked" prefHeight="112.0" prefWidth="690.0" text="Search with Full Name" GridPane.columnIndex="1" GridPane.rowIndex="3">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </JFXButton>
+      <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <children>
+            <JFXButton fx:id="searchingButton" buttonType="RAISED" onAction="#onSearchignButtonClicked" prefHeight="71.0" prefWidth="426.0" style="-fx-background-color: #f2f2f2;" text="Search Full Name" HBox.hgrow="NEVER">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="loadTextFileButton" buttonType="RAISED" onAction="#onLoadTextButtonClicked" prefHeight="114.0" prefWidth="406.0" style="-fx-background-color: #f2f2f2;" text="Load txt File">
+               <font>
+                  <Font size="34.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
     </children>
 </GridPane>

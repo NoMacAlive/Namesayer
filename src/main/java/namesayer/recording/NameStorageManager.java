@@ -37,7 +37,6 @@ public class NameStorageManager{
         return instance;
     }
 
-
     /**
      * load existing database hierarchy
      */
@@ -198,5 +197,6 @@ public class NameStorageManager{
     public void addNewNametoList(Name newName){
         namesList.add(0,newName);
     }
+    public void setNameList(List<Name> list){ namesList = list; }
 
 }

@@ -22,18 +22,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.util.Pair;
 import namesayer.recording.Name;
 import namesayer.recording.NameStorageManager;
 import namesayer.util.EmptySelectionModel;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class NameSelectScreenController {
 
     public JFXButton searchingButton;
+    public JFXButton loadTextFileButton;
     @FXML private GridPane parentPane;
     @FXML private JFXButton nextButton;
     @FXML private JFXTextField nameSearchBar;
@@ -143,12 +149,9 @@ public class NameSelectScreenController {
         dialog.setTitle("Seaching Full Name");
         dialog.setHeaderText("Looking for a name with first name and second name:");
 
-// Set the icon (must be included in the project).
-//        dialog.setGraphic(new ImageView(this.getClass().getResource("login.png").toString()));
-
 // Set the button types.
-        ButtonType loginButtonType = new ButtonType("Search", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        ButtonType SearchButtonType = new ButtonType("Search", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(SearchButtonType, ButtonType.CANCEL);
 
 // Create the FirstName and LastName labels and fields.
         GridPane grid = new GridPane();
@@ -167,12 +170,12 @@ public class NameSelectScreenController {
         grid.add(LastName, 1, 1);
 
 // Enable/Disable login button depending on whether a FirstName was entered.
-        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
-        loginButton.setDisable(true);
+        Node SearchButton = dialog.getDialogPane().lookupButton(SearchButtonType);
+        SearchButton.setDisable(true);
 
 // Do some validation (using the Java 8 lambda syntax).
         FirstName.textProperty().addListener((observable, oldValue, newValue) -> {
-            loginButton.setDisable(newValue.trim().isEmpty());
+            SearchButton.setDisable(newValue.trim().isEmpty());
         });
 
         dialog.getDialogPane().setContent(grid);
@@ -182,7 +185,7 @@ public class NameSelectScreenController {
 
 // Convert the result to a FirstName-LastName-pair when the login button is clicked.
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
+            if (dialogButton == SearchButtonType) {
                 return new Pair<>(FirstName.getText(), LastName.getText());
             }
             return null;
@@ -191,7 +194,6 @@ public class NameSelectScreenController {
         Optional<Pair<String, String>> result = dialog.showAndWait();
 
         result.ifPresent(FirstNameLastName -> {
-//            System.out.println("FirstName=" + FirstNameLastName.getKey() + ", LastName=" + FirstNameLastName.getValue());
             Name fusedName = null;
             try {
                 fusedName = nameStorageManager.fusingTwoNames(FirstNameLastName.getKey().toLowerCase(),FirstNameLastName.getValue().toLowerCase());
@@ -210,4 +212,23 @@ public class NameSelectScreenController {
             });
 
     }
+
+    public void onLoadTextButtonClicked(ActionEvent actionEvent) throws IOException {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Select the audio database for your names");
+        File selectedDirectory = chooser.showDialog(randomToggle.getScene().getWindow());
+        if (selectedDirectory!=null) {
+            List<String> names = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(selectedDirectory)));
+            for (String line = br.readLine(); line != null; line = br.readLine()) {
+                    names.add(line);
+            }
+            br.close();
+        }
+        /**TO BE FINISHED*/
+        //TODO: FINISH THE MULTINAME CONCADENATION
+    }
+
+
 }

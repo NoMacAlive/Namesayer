@@ -4,7 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+
+import java.util.Optional;
 
 import static namesayer.recording.Config.DATA_BASE;
 

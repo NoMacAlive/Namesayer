@@ -3,13 +3,24 @@ package namesayer;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import namesayer.recording.NameStorageManager;
 
 import javax.sound.sampled.AudioFormat;
@@ -18,6 +29,7 @@ import javax.sound.sampled.TargetDataLine;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static namesayer.recording.Config.DATA_BASE;
@@ -38,9 +50,60 @@ public class MenuScreenController {
     }
 
     public void onPracticeModeClicked(MouseEvent mouseEvent) throws IOException {
-        NameStorageManager storageManager = NameStorageManager.getInstance();
-        storageManager.clear();
-        storageManager.initialize(DATA_BASE, practiceButton);
+        //the progress indicator stage is based on code on
+        //https://blog.csdn.net/wingfourever/article/details/8500619#
+        HBox mHbox = new HBox(10);
+        ProgressIndicator Bar = new ProgressIndicator(-1);
+        Bar.setMaxSize(150, 150);
+        Label Label = new Label("Loading DataBase...");
+        Label.setFont(new Font(10));
+        mHbox.getChildren().add(Bar);
+        mHbox.getChildren().add(Label);
+        Region veil = new Region();
+        StackPane root1 = new StackPane();
+        root1.getChildren().addAll(veil, Bar, Label);
+        Scene scene1 = new Scene(root1, 300, 250);
+        Window stage = new Stage();
+        ((Stage) stage).setTitle("Loading DataBase");
+        ((Stage) stage).setScene(scene1);
+        ((Stage) stage).show();
+
+        Task<Void> progressTask = new Task<Void>(){
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                updateMessage("Succeeded");
+                ((Stage) stage).close();
+            }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
+                updateMessage("Cancelled");
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                updateMessage("Failed");
+            }
+
+            @Override
+            protected Void call() throws Exception {
+                NameStorageManager storageManager = NameStorageManager.getInstance();
+                storageManager.clear();
+                storageManager.initialize(DATA_BASE, practiceButton);
+                updateMessage("Finish");
+                return null;
+            }
+        };
+        veil.visibleProperty().bind(progressTask.runningProperty());
+        Bar.progressProperty().bind(progressTask.progressProperty());
+        Label.textProperty().bind(progressTask.messageProperty());
+
+//        Optional<Boolean> result = dialog.showAndWait();
+        new Thread(progressTask).start();
+
         Scene scene = practiceButton.getScene();
         Parent root = FXMLLoader.load(getClass().getResource("/NameSelectScreen.fxml"));
         scene.setRoot(root);
