@@ -2,4 +2,8 @@
 target/
 *.iml
 out/
+<<<<<<< HEAD
 recordings/
+=======
+recordings/
+>>>>>>> d45a188f72d5a6166e00e0f7ea7b8462a2a64f74
