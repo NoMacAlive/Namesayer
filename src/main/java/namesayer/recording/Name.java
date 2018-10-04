@@ -7,13 +7,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.SequenceInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
+
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 
 import static namesayer.recording.Config.*;
 
@@ -46,6 +52,23 @@ public class Name implements Comparable<Name> {
         if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()))) {
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
         }
+        
+        String wavFile1 = Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "/" + SAVED_RECORDINGS + "/" + first.getName() + WAV_EXTENSION).toString();
+        String wavFile2 = Paths.get(CREATIONS_FOLDER + "/" + last.getName()+ "/" + SAVED_RECORDINGS + "/" + last.getName() + WAV_EXTENSION).toString();
+
+        try {
+            AudioInputStream clip1 = AudioSystem.getAudioInputStream(new File(wavFile1));
+            AudioInputStream clip2 = AudioSystem.getAudioInputStream(new File(wavFile2));
+
+            AudioInputStream appendedFiles = new AudioInputStream(new SequenceInputStream(clip1, clip2), clip1.getFormat(), clip1.getFrameLength() + clip2.getFrameLength());
+            
+            File concat = new File(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/" +first.getName() + "_" + last.getName() + ".wav");
+            AudioSystem.write(appendedFiles, AudioFileFormat.Type.WAVE, concat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        this.directory = Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName());
     }
 
     /**
