@@ -26,6 +26,7 @@ public class NameStorageManager{
 
     private static final Pattern REGEX_NAME_PARSER = Pattern.compile("[a-zA-Z]+(?:\\.wav)");
     private static NameStorageManager instance = null;
+    private static List<String> nameStringList = new ArrayList<>();
 
     private List<Name> namesList = new LinkedList<>();
 
@@ -46,6 +47,7 @@ public class NameStorageManager{
             for (Path e : stream) {
                 Name temp = new Name(e.getFileName().toString(), e);
                 namesList.add(temp);
+                nameStringList.add(temp.getName());
                 Properties ratingProperties = new Properties();
 
                 //load the properties
@@ -107,6 +109,8 @@ public class NameStorageManager{
                          String name = "unrecognized";
                          if (matcher.find()) {
                              name = matcher.group(0).replace(".wav", "").toLowerCase();
+                             //TODO:initialise in loading method
+                             nameStringList.add(name);
                              if (!name.isEmpty()) {
                                  name = name.substring(0, 1).toUpperCase() + name.substring(1);
                              }
@@ -198,5 +202,36 @@ public class NameStorageManager{
         namesList.add(0,newName);
     }
     public void setNameList(List<Name> list){ namesList = list; }
+    public boolean isNameExistInDataBase(String s){
+            if(nameStringList.contains(s)){
+                return true;
+            }
+            return false;
+    }
 
+    //this method takes a string as input which is one of the name the user wish to practice
+    //
+    public String[] parseNameFromString(String str){
+        str.replace("-"," ");
+        return str.split(" ");
+    }
+
+    //This method takes a list of strings and return a new Name object
+    //the new Name object is a concadenation of the names in the list in the given order
+    public Name fuseMultiNames(List<Name> names){
+        //TODO: to be implemented
+        return null;
+    }
+
+    //this method gives a Name list using the input List<String> as a reference
+    //if there is a Name with a name equals one of the String given in the list then return it.
+    public List<Name> getNameListForStrings(List<String> names){
+        List<Name> output = new ArrayList<>();
+        for(Name n:namesList){
+            if(names.contains(n.getName())){
+                output.add(n);
+            }
+        }
+        return output;
+    }
 }

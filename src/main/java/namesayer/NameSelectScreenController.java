@@ -206,8 +206,9 @@ public class NameSelectScreenController {
                 alert.setHeaderText("WARNING!");
                 alert.setContentText("There are no such names in the database!");
                 alert.showAndWait();
+            }else {
+                nameStorageManager.addNewNametoList(fusedName);
             }
-            nameStorageManager.addNewNametoList(fusedName);
             initialize();
             });
 
@@ -215,10 +216,10 @@ public class NameSelectScreenController {
 
     public void onLoadTextButtonClicked(ActionEvent actionEvent) throws IOException {
         DirectoryChooser chooser = new DirectoryChooser();
+        List<String> names = new ArrayList<>();
         chooser.setTitle("Select the audio database for your names");
         File selectedDirectory = chooser.showDialog(randomToggle.getScene().getWindow());
         if (selectedDirectory!=null) {
-            List<String> names = new ArrayList<>();
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     new FileInputStream(selectedDirectory)));
             for (String line = br.readLine(); line != null; line = br.readLine()) {
@@ -228,6 +229,31 @@ public class NameSelectScreenController {
         }
         /**TO BE FINISHED*/
         //TODO: FINISH THE MULTINAME CONCADENATION
+        List<String> nameNotInDataBase = new ArrayList<>();
+        List<String> nameInDataBase = new ArrayList<>();
+        for(String s:names) {
+            for (String s2 : nameStorageManager.parseNameFromString(s)) {
+                if (!nameStorageManager.isNameExistInDataBase(s2)) {
+                    nameNotInDataBase.add(s2);
+                }else{
+                    nameInDataBase.add(s2);
+                }
+            }
+            if (nameNotInDataBase.size() > 0) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String s2 : nameNotInDataBase) {
+                    stringBuilder.append(s2 + ",");
+                }
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("WARNING!");
+                alert.setContentText(stringBuilder.append("are not in the database!").toString());
+                alert.showAndWait();
+            } else {
+                //TODO: fuse names and display on the listview
+                    nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(nameInDataBase));
+            }
+        }
     }
 
 
