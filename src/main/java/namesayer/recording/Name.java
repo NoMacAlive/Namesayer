@@ -53,7 +53,7 @@ public class Name implements Comparable<Name> {
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
         }
         
-        String wavFile1 = Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "/" + SAVED_RECORDINGS + "/" + first.getName() + WAV_EXTENSION).toString();
+        String wavFile1 = Paths.get(CREATIONS_FOLDER + "/" + first.getName() + "/" + SAVED_RECORDINGS + "/" + first.getName() + WAV_EXTENSION).toString();
         String wavFile2 = Paths.get(CREATIONS_FOLDER + "/" + last.getName()+ "/" + SAVED_RECORDINGS + "/" + last.getName() + WAV_EXTENSION).toString();
 
         try {
