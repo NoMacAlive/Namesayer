@@ -52,9 +52,12 @@ public class Name implements Comparable<Name> {
         if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()))) {
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
         }
-        
-        String wavFile1 = Paths.get(CREATIONS_FOLDER + "/" + first.getName() + "/" + SAVED_RECORDINGS + "/" + first.getName() + WAV_EXTENSION).toString();
-        String wavFile2 = Paths.get(CREATIONS_FOLDER + "/" + last.getName()+ "/" + SAVED_RECORDINGS + "/" + last.getName() + WAV_EXTENSION).toString();
+
+
+        System.out.println(first.getName());
+
+        String wavFile1 = Paths.get(first.getSavedRecordings().get(0).getRecordingPath().toString()).toString();
+        String wavFile2 = Paths.get(last.getSavedRecordings().get(0).getRecordingPath().toString()).toString();
 
         try {
             AudioInputStream clip1 = AudioSystem.getAudioInputStream(new File(wavFile1));
