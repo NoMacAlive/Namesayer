@@ -230,7 +230,7 @@ public class NameSelectScreenController {
             }
             br.close();
         }
-        //every string in the list represents a name needs concadenation
+        //every string in the list represents a name needs concatenation
         /**TO BE FINISHED*/
         //TODO: FINISH THE MULTINAME CONCADENATION
         List<String> nameNotInDataBase = new ArrayList<>();
