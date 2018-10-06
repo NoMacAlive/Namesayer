@@ -137,6 +137,7 @@ public class MenuScreenController implements Initializable {
         Scene scene = practiceButton.getScene();
         Parent root = FXMLLoader.load(getClass().getResource("/NameSelectScreen.fxml"));
         scene.setRoot(root);
+        System.out.println("Number of names in list: "+storageManager.getNamesList().size());
     }
 
     //reveal the progressbar after microphone button being clicked

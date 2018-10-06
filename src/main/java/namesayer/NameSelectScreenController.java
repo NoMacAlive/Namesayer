@@ -199,6 +199,7 @@ public class NameSelectScreenController {
         result.ifPresent(FirstNameLastName -> {
             Name fusedName = null;
             try {
+                 nameStorageManager.parseNameFromString(FirstNameLastName.getKey().toLowerCase()+"\\s"+FirstNameLastName.getValue().toLowerCase());
                 fusedName = nameStorageManager.fusingTwoNames(FirstNameLastName.getKey().toLowerCase(),FirstNameLastName.getValue().toLowerCase());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -230,6 +231,8 @@ public class NameSelectScreenController {
             }
             br.close();
         }
+
+        System.out.println(names);
         //every string in the list represents a name needs concadenation
         /**TO BE FINISHED*/
         //TODO: FINISH THE MULTINAME CONCADENATION
@@ -263,7 +266,7 @@ public class NameSelectScreenController {
                     Name temp = nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(new ArrayList<String>(Arrays.asList(nameStorageManager.parseNameFromString(s1)))));
                     nameStorageManager.addNewNametoList(temp);
                 }
-                nameStorageManager.setNameList(namesConcadenated);
+//                nameStorageManager.setNameList(namesConcadenated);
 
 
     }
