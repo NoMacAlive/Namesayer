@@ -71,7 +71,7 @@ public class NameStorageManager{
                         temp.addSavedRecording(new Recording(p, true));//add user created recordings to corresponding name
                     }
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+//                    e1.printStackTrace();
                 }
                 Collections.sort(namesList);
                 Platform.runLater(() -> button.setDisable(false));
@@ -89,7 +89,7 @@ public class NameStorageManager{
      */
 
     public void initialize(Path jkl,Button jk) throws IOException {
-//        Config.loadCoinsCountProperty();
+        Config.loadCoinsCountProperty();
         try {
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
                 Files.createDirectory(CREATIONS_FOLDER);
@@ -140,7 +140,7 @@ public class NameStorageManager{
                              Recording recording = new Recording(recordingPath);
                              newName.addSavedRecording(recording);
                          } catch (IOException e) {
-                             e.printStackTrace();
+//                             e.printStackTrace();
                          }
                      });
                 //sorts the final list
@@ -214,7 +214,7 @@ public class NameStorageManager{
 
     //this method takes a string as input which is one of the name the user wish to practice
     public String[] parseNameFromString(String str){
-        str = str.replace("\\-","\\s");
+        str = str.replace("\u2014","\\s");
         return str.split("\\s");
     }
 

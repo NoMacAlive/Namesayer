@@ -8,18 +8,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -43,7 +43,6 @@ public class MenuScreenController implements Initializable {
     @FXML public JFXProgressBar MicrophoneVolume;
     @FXML public ImageView MicrophoneButton;
     @FXML public JFXButton shopButton;
-    public AnchorPane background;
     @FXML private JFXButton loadNewDataBaseButton;
     @FXML private JFXButton practiceButton;
     @FXML private JFXButton loadExistingDataBaseButton;
@@ -51,34 +50,18 @@ public class MenuScreenController implements Initializable {
     private boolean isFirstTimeClickMic = true;
     @FXML private ImageView microphoneTestingButton;
     public static MenuScreenController Instance = new MenuScreenController();
-    private static int backGroundNumber = 0;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        coinsCollectedCounter.setText("Coins Collected: "+Config.getCoinCounter().toString());
-        String s = null;
-//        switch (backGroundNumber){
-//            case 1: s = "background1";
-//            case 2: s = "background2";
-//            case 3: s = "background3";
-//            case 4: s = "background4";
-//            case 5: s = "background5";
-//
-//        }
-//        try {
-//            background.getStyleClass().add(s);
-////            background.getStyleClass().clear();
-//        }catch (NullPointerException e){
-//
-//        }
+        coinsCollectedCounter.setText("Coins Collected: "+Config.counter);
     }
 
     public static MenuScreenController getInstance(){
         return Instance;
     }
-    public void onPracticeModeClicked(MouseEvent mouseEvent) throws IOException {
-        //the progress indicator stage is based on code on
-        //https://blog.csdn.net/wingfourever/article/details/8500619#
+    public void onPracticeModeClicked(MouseEvent mouseEvent) throws IOException, InterruptedException {
+//        the progress indicator stage is based on code on
+//        https://blog.csdn.net/wingfourever/article/details/8500619#
         HBox mHbox = new HBox(10);
         ProgressIndicator Bar = new ProgressIndicator(-1);
         Bar.setMaxSize(150, 150);
@@ -131,11 +114,13 @@ public class MenuScreenController implements Initializable {
                 storageManager.clear();
         storageManager.initialize(DATA_BASE, practiceButton);
 //        Optional<Boolean> result = dialog.showAndWait();
-        new Thread(progressTask).start();
-
+        Thread thread1 = new Thread(progressTask);
+               thread1.start();
+               thread1.join();
         Scene scene = practiceButton.getScene();
         Parent root = FXMLLoader.load(getClass().getResource("/NameSelectScreen.fxml"));
         scene.setRoot(root);
+        System.out.println("Number of names in list: "+storageManager.getNamesList().size());
     }
 
     //reveal the progressbar after microphone button being clicked
@@ -206,12 +191,8 @@ public class MenuScreenController implements Initializable {
 
     public void onShopClicked(MouseEvent mouseEvent) throws IOException {
         Scene scene = shopButton.getScene();
-        scene.setRoot(Config.shopRoot);
-    }
-
-    public static void setBackground(int i){
-//        background.setBackground(new Background(new BackgroundFill(new ImagePattern(new Image(getClass().getClassLoader().getResource("css"+image).toString())), CornerRadii.EMPTY, Insets.EMPTY)));
-        backGroundNumber = i;
+        Parent root = FXMLLoader.load(getClass().getResource("/Shop.fxml"));
+        scene.setRoot(root);
     }
 
     public void updateCoinCount(String txt){
