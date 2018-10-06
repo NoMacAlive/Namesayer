@@ -89,7 +89,7 @@ public class NameStorageManager{
      */
 
     public void initialize(Path jkl,Button jk) throws IOException {
-        Config.loadCoinsCountProperty();
+//        Config.loadCoinsCountProperty();
         try {
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
                 Files.createDirectory(CREATIONS_FOLDER);
@@ -214,8 +214,8 @@ public class NameStorageManager{
 
     //this method takes a string as input which is one of the name the user wish to practice
     public String[] parseNameFromString(String str){
-        str.replace("-"," ");
-        return str.split(" ");
+        str = str.replace("\\-","\\s");
+        return str.split("\\s");
     }
 
     //This method takes a list of strings and return a new Name object
@@ -227,10 +227,15 @@ public class NameStorageManager{
     //this method gives a Name list using the input List<String> as a reference
     //if there is a Name with a name equals one of the String given in the list then return it.
     public List<Name> getNameListForStrings(List<String> names){
+        for(String s:names){
+            s=s.toLowerCase();
+        }
         List<Name> output = new ArrayList<>();
         for(Name n:namesList){
-            if(names.contains(n.getName())){
-                output.add(n);
+            if(names.contains(n.getName().toLowerCase())){
+                if(!output.contains(n)) {
+                    output.add(n);
+                }
             }
         }
         return output;

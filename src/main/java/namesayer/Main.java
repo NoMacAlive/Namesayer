@@ -19,9 +19,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Config.loadCoinsCountProperty();
         Parent root = FXMLLoader.load(getClass().getResource("/MenuScreen.fxml"));
         primaryStage.setTitle("Name Sayer");
-        primaryStage.setScene(new Scene(root, 800, 700));
+        primaryStage.setScene(new Scene(root, 1152, 648));
         primaryStage.show();
 
     }
