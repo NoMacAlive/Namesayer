@@ -14,6 +14,7 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -217,10 +218,10 @@ public class NameStorageManager{
     }
 
     //This method takes a list of strings and return a new Name object
-    //the new Name object is a concadenation of the names in the list in the given order
-    public Name fuseMultiNames(List<Name> names){
-        //TODO: to be implemented
-        return null;
+    //the new Name object is a concatenation of the names in the list in the given order
+    public Name fuseMultiNames(List<Name> names) throws IOException {
+    	
+    	return new Name(names);
     }
 
     //this method gives a Name list using the input List<String> as a reference

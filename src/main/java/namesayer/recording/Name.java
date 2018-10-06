@@ -15,6 +15,7 @@ import java.io.SequenceInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Properties;
 
 import javax.sound.sampled.AudioFileFormat;
@@ -72,6 +73,59 @@ public class Name implements Comparable<Name> {
         }
         
         this.directory = Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName());
+    }
+    
+    //This constructor takes a list of names and returns concatenated version
+    public Name(List<Name> names) throws IOException {
+    	//Name toAdd= null; 
+    	
+    	String directoryName = names.get(0).toString();
+    	
+    	for(int i=1; i<names.size(); i++) {
+    		directoryName = directoryName + "_" + names.get(i).toString(); 
+    	}
+    	
+    	if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName))) {
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName));
+        }
+    	File temp = new File(CREATIONS_FOLDER + "/"+ directoryName + "/" + directoryName + ".wav");
+    	
+    	String wavFile1 = Paths.get(names.get(0).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
+        String wavFile2 = Paths.get(names.get(1).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
+        try {
+            AudioInputStream clip1 = AudioSystem.getAudioInputStream(new File(wavFile1));
+            AudioInputStream clip2 = AudioSystem.getAudioInputStream(new File(wavFile2));
+
+            AudioInputStream appendedFiles = new AudioInputStream(new SequenceInputStream(clip1, clip2), clip1.getFormat(), clip1.getFrameLength() + clip2.getFrameLength());
+            
+            
+            AudioSystem.write(appendedFiles, AudioFileFormat.Type.WAVE, temp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        if (names.size() > 2) { 
+        	for(int i=2; i<names.size(); i++) {
+        		
+                String toAdd = Paths.get(names.get(1).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
+                try {
+                    AudioInputStream clip1 = AudioSystem.getAudioInputStream(temp);
+                    AudioInputStream clip2 = AudioSystem.getAudioInputStream(new File(toAdd));
+
+                    AudioInputStream appendedFiles = new AudioInputStream(new SequenceInputStream(clip1, clip2), clip1.getFormat(), clip1.getFrameLength() + clip2.getFrameLength());
+                    
+                   
+                    AudioSystem.write(appendedFiles, AudioFileFormat.Type.WAVE, temp);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        		
+
+        	}
+        }
+        
+        this.name = directoryName; 
+        this.directory = Paths.get(CREATIONS_FOLDER + "/"+ directoryName);
     }
 
     /**
