@@ -261,7 +261,7 @@ public class NameSelectScreenController {
                 //TODO: fuse names and display on the listview
                 for(String s1:nameInDataBase) {
                     Name temp = nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(new ArrayList<String>(Arrays.asList(nameStorageManager.parseNameFromString(s1)))));
-                    namesConcadenated.add(temp);
+                    nameStorageManager.addNewNametoList(temp);
                 }
                 nameStorageManager.setNameList(namesConcadenated);
 

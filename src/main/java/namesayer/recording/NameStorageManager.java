@@ -89,7 +89,7 @@ public class NameStorageManager{
      */
 
     public void initialize(Path jkl,Button jk) throws IOException {
-        Config.loadCoinsCountProperty();
+//        Config.loadCoinsCountProperty();
         try {
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
                 Files.createDirectory(CREATIONS_FOLDER);
@@ -214,7 +214,7 @@ public class NameStorageManager{
 
     //this method takes a string as input which is one of the name the user wish to practice
     public String[] parseNameFromString(String str){
-        str = str.replace("\u2014","\\s");
+        str = str.replace("\\-","\\s");
         return str.split("\\s");
     }
 
