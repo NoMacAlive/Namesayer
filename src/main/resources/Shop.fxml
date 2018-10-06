@@ -1,126 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import java.lang.String?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import org.controlsfx.control.GridView?>
 
 <GridPane alignment="CENTER" prefHeight="648.0" prefWidth="1152.0" stylesheets="@css/Material.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="namesayer.ShopController">
    <columnConstraints>
       <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="553.0" minWidth="10.0" prefWidth="553.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="340.5" minWidth="10.0" percentWidth="30.0" prefWidth="253.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="180.0" minHeight="10.0" percentHeight="40.0" prefHeight="59.5" valignment="CENTER" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="310.5" minHeight="10.0" percentHeight="40.0" prefHeight="310.5" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints percentHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" percentHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
       <HBox alignment="BOTTOM_LEFT" GridPane.columnSpan="3" GridPane.rowIndex="4" />
-      <AnchorPane fx:id="background" prefHeight="130.0" prefWidth="1111.0" stylesheets="@css/Material.css" GridPane.columnSpan="3">
+      <AnchorPane prefHeight="130.0" prefWidth="1111.0" stylesheets="@css/Material.css" GridPane.columnSpan="3">
          <styleClass>
             <String fx:value="background" />
             <String fx:value="shadow" />
          </styleClass>
       </AnchorPane>
-      <JFXButton fx:id="coinsCollectedCounter" alignment="CENTER" disable="true" prefHeight="197.0" prefWidth="361.0" text="Coins Collected: 0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
-         <font>
-            <Font name="Calisto MT" size="32.0" />
-         </font></JFXButton>
-      <JFXButton onMouseClicked="#onBackButtonClicked" text=" " GridPane.halignment="LEFT" GridPane.valignment="TOP">
-         <graphic>
-            <MaterialIconView fx:id="backButton" fill="WHITE" glyphName="ARROW_BACK" onMouseClicked="#onBackButtonClicked" size="30" />
-         </graphic>
-      </JFXButton>
-      <GridView GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="4" />
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
-         <children>
-            <ImageView fitHeight="160.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@css/background1.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="coin20" disable="true" text="20 coins" />
-            <JFXButton fx:id="buyBackground1" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground1Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <children>
-            <ImageView fx:id="buyBackground2" fitHeight="144.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@css/background2.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="coin50" disable="true" text="50 coins" />
-            <JFXButton buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground2Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <children>
-            <ImageView fitHeight="160.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@css/background4.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="coin100" disable="true" text="100 coins" />
-            <JFXButton fx:id="buyBackground4" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground4Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
-         <children>
-            <ImageView fitHeight="160.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@css/background3.jpg" />
-               </image>
-            </ImageView>
-            <Label disable="true" text="100 coins" />
-            <JFXButton fx:id="buyBackground3" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground3Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-         <children>
-            <ImageView fitHeight="160.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@css/background5.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="coin150" disable="true" text="150 coins" />
-            <JFXButton fx:id="buyBackground5" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground5Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-         </children>
-      </VBox>
+      <Label fx:id="coinsCollectedCounter" alignment="CENTER" prefHeight="52.0" prefWidth="165.0" text="Coins Collected:0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
    </children>
 </GridPane>

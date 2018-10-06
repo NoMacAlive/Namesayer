@@ -199,7 +199,6 @@ public class NameSelectScreenController {
         result.ifPresent(FirstNameLastName -> {
             Name fusedName = null;
             try {
-                 nameStorageManager.parseNameFromString(FirstNameLastName.getKey().toLowerCase()+"\\s"+FirstNameLastName.getValue().toLowerCase());
                 fusedName = nameStorageManager.fusingTwoNames(FirstNameLastName.getKey().toLowerCase(),FirstNameLastName.getValue().toLowerCase());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -264,7 +263,7 @@ public class NameSelectScreenController {
                 //TODO: fuse names and display on the listview
                 for(String s1:nameInDataBase) {
                     Name temp = nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(new ArrayList<String>(Arrays.asList(nameStorageManager.parseNameFromString(s1)))));
-                    nameStorageManager.addNewNametoList(temp);
+                    namesConcadenated.add(temp);
                 }
 //                nameStorageManager.setNameList(namesConcadenated);
 
