@@ -213,7 +213,6 @@ public class NameStorageManager{
     }
 
     //this method takes a string as input which is one of the name the user wish to practice
-    //
     public String[] parseNameFromString(String str){
         str.replace("-"," ");
         return str.split(" ");
@@ -222,7 +221,6 @@ public class NameStorageManager{
     //This method takes a list of strings and return a new Name object
     //the new Name object is a concatenation of the names in the list in the given order
     public Name fuseMultiNames(List<Name> names) throws IOException {
-    	
     	return new Name(names);
     }
 

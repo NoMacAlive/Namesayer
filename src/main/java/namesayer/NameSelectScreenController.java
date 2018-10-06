@@ -23,6 +23,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.util.Pair;
 import namesayer.recording.Name;
 import namesayer.recording.NameStorageManager;
@@ -32,6 +33,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,6 +52,7 @@ public class NameSelectScreenController {
     private NameStorageManager nameStorageManager;
     private ObservableList<Name> listOfNames;
     private static boolean randomSelected = false;
+    private ObservableList<Name> namesConcadenated = FXCollections.observableArrayList();
 
     public void initialize() {
         nameStorageManager = NameStorageManager.getInstance();
@@ -215,10 +218,10 @@ public class NameSelectScreenController {
     }
 
     public void onLoadTextButtonClicked(ActionEvent actionEvent) throws IOException {
-        DirectoryChooser chooser = new DirectoryChooser();
+        FileChooser chooser = new FileChooser();
         List<String> names = new ArrayList<>();
         chooser.setTitle("Select the audio database for your names");
-        File selectedDirectory = chooser.showDialog(randomToggle.getScene().getWindow());
+        File selectedDirectory = chooser.showOpenDialog(loadTextFileButton.getScene().getWindow());
         if (selectedDirectory!=null) {
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     new FileInputStream(selectedDirectory)));
@@ -227,6 +230,7 @@ public class NameSelectScreenController {
             }
             br.close();
         }
+        //every string in the list represents a name needs concadenation
         /**TO BE FINISHED*/
         //TODO: FINISH THE MULTINAME CONCADENATION
         List<String> nameNotInDataBase = new ArrayList<>();
@@ -234,9 +238,9 @@ public class NameSelectScreenController {
         for(String s:names) {
             for (String s2 : nameStorageManager.parseNameFromString(s)) {
                 if (!nameStorageManager.isNameExistInDataBase(s2)) {
-                    nameNotInDataBase.add(s2);
+                    nameNotInDataBase.add(s);
                 }else{
-                    nameInDataBase.add(s2);
+                    nameInDataBase.add(s);
                 }
             }
             if (nameNotInDataBase.size() > 0) {
@@ -251,7 +255,11 @@ public class NameSelectScreenController {
                 alert.showAndWait();
             } else {
                 //TODO: fuse names and display on the listview
-                    nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(nameInDataBase));
+                for(String s1:nameInDataBase) {
+                    Name temp = nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(new ArrayList<String>(Arrays.asList(nameStorageManager.parseNameFromString(s1)))));
+                    namesConcadenated.add(temp);
+                }
+                nameStorageManager.setNameList(namesConcadenated);
             }
         }
     }
