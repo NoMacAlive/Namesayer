@@ -52,8 +52,6 @@ public class Name implements Comparable<Name> {
         this(first.getName()+" "+last.getName(), Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
         if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()))) {
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ first.getName() + "_" + last.getName() + "/saved"));
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ first.getName() + "_" + last.getName() +"/temp"));
         }
 
 
@@ -68,7 +66,7 @@ public class Name implements Comparable<Name> {
 
             AudioInputStream appendedFiles = new AudioInputStream(new SequenceInputStream(clip1, clip2), clip1.getFormat(), clip1.getFrameLength() + clip2.getFrameLength());
             
-            File concat = new File(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/saved/" +first.getName() + "_" + last.getName() + ".wav");
+            File concat = new File(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/" +first.getName() + "_" + last.getName() + ".wav");
             AudioSystem.write(appendedFiles, AudioFileFormat.Type.WAVE, concat);
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,6 +77,7 @@ public class Name implements Comparable<Name> {
     
     //This constructor takes a list of names and returns concatenated version
     public Name(List<Name> names) throws IOException {
+    	//Name toAdd= null; 
     	
     	String directoryName = names.get(0).toString();
     	
@@ -86,15 +85,10 @@ public class Name implements Comparable<Name> {
     		directoryName = directoryName + "_" + names.get(i).toString(); 
     	}
     	
-    	//Create new directory
     	if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName))) {
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName));
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName + "/saved"));
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName +"/temp"));
         }
-    	
-    	//Creating a temp file to recursively add recordings
-    	File temp = new File(CREATIONS_FOLDER + "/"+ directoryName + "/saved/" + directoryName + ".wav");
+    	File temp = new File(CREATIONS_FOLDER + "/"+ directoryName + "/" + directoryName + ".wav");
     	
     	String wavFile1 = Paths.get(names.get(0).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
         String wavFile2 = Paths.get(names.get(1).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
@@ -110,7 +104,6 @@ public class Name implements Comparable<Name> {
             e.printStackTrace();
         }
         
-        //Add each name to the temp recording
         if (names.size() > 2) { 
         	for(int i=2; i<names.size(); i++) {
         		
