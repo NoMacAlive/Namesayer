@@ -41,7 +41,8 @@ public class NameStorageManager{
     /**
      * load existing database hierarchy
      */
-    public void loadExistingHierarchy(Path folderPath, Button button) {
+    public void loadExistingHierarchy(Path folderPath, Button button) throws IOException {
+        Config.loadCoinsCountProperty();
         namesList = new LinkedList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(folderPath)) {
             for (Path e : stream) {
@@ -86,7 +87,8 @@ public class NameStorageManager{
      * Create new database hierarchy
      */
 
-    public void initialize(Path jkl,Button jk) {
+    public void initialize(Path jkl,Button jk) throws IOException {
+        Config.loadCoinsCountProperty();
         try {
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
                 Files.createDirectory(CREATIONS_FOLDER);

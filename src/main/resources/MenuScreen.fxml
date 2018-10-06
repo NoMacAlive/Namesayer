@@ -61,6 +61,11 @@
             <Font size="22.0" />
          </font>
       </JFXButton>
-      
+      <JFXButton fx:id="shopButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onShopClicked" prefHeight="107.0" prefWidth="321.0" ripplerFill="#7eb6d7" style="-fx-background-color: #D3D3D3;" text="Shop" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="coinsCollectedCounter" text="Coins Collected: 0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
    </children>
 </GridPane>

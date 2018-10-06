@@ -43,6 +43,11 @@ public class Recording {
             }
         });
         thread.start();
+        try {
+            Config.IncrementCoinCounter();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public double getRating() {

@@ -4,8 +4,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
@@ -14,6 +16,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -21,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import namesayer.recording.Config;
 import namesayer.recording.NameStorageManager;
 
 import javax.sound.sampled.AudioFormat;
@@ -34,21 +38,27 @@ import java.util.ResourceBundle;
 
 import static namesayer.recording.Config.DATA_BASE;
 
-public class MenuScreenController {
+public class MenuScreenController implements Initializable {
 
     @FXML public JFXProgressBar MicrophoneVolume;
     @FXML public ImageView MicrophoneButton;
+    @FXML public JFXButton shopButton;
     @FXML private JFXButton loadNewDataBaseButton;
     @FXML private JFXButton practiceButton;
     @FXML private JFXButton loadExistingDataBaseButton;
+    @FXML private JFXButton coinsCollectedCounter;
     private boolean isFirstTimeClickMic = true;
     @FXML private ImageView microphoneTestingButton;
-
+    public static MenuScreenController Instance = new MenuScreenController();
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        coinsCollectedCounter.setText("Coins Collected: "+Config.counter);
     }
 
+    public static MenuScreenController getInstance(){
+        return Instance;
+    }
     public void onPracticeModeClicked(MouseEvent mouseEvent) throws IOException {
         //the progress indicator stage is based on code on
         //https://blog.csdn.net/wingfourever/article/details/8500619#
@@ -91,7 +101,7 @@ public class MenuScreenController {
             @Override
             protected Void call() throws Exception {
                 NameStorageManager storageManager = NameStorageManager.getInstance();
-                storageManager.clear();
+//                storageManager.clear();
                 storageManager.initialize(DATA_BASE, practiceButton);
                 updateMessage("Finish");
                 return null;
@@ -100,7 +110,9 @@ public class MenuScreenController {
         veil.visibleProperty().bind(progressTask.runningProperty());
         Bar.progressProperty().bind(progressTask.progressProperty());
         Label.textProperty().bind(progressTask.messageProperty());
-
+        NameStorageManager storageManager = NameStorageManager.getInstance();
+                storageManager.clear();
+        storageManager.initialize(DATA_BASE, practiceButton);
 //        Optional<Boolean> result = dialog.showAndWait();
         new Thread(progressTask).start();
 
@@ -158,7 +170,7 @@ public class MenuScreenController {
     }
 
     //imports the files hierarchy
-    public void onSelectLoadPreviousFolder(MouseEvent mouseEvent) {
+    public void onSelectLoadPreviousFolder(MouseEvent mouseEvent) throws IOException {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.home")));
         chooser.setTitle("Select the existing database for your names");
@@ -173,6 +185,16 @@ public class MenuScreenController {
     }
 
     public void onSelectAudioDatabaseFolder(MouseEvent mouseEvent) {
+    }
+
+    public void onShopClicked(MouseEvent mouseEvent) throws IOException {
+        Scene scene = shopButton.getScene();
+        Parent root = FXMLLoader.load(getClass().getResource("/Shop.fxml"));
+        scene.setRoot(root);
+    }
+
+    public void updateCoinCount(String txt){
+        coinsCollectedCounter.setText(txt);
     }
 //
 //    public void onSelectAudioDatabaseFolder(MouseEvent mouseEvent) {

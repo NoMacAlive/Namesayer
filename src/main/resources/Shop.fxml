@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane alignment="CENTER" prefHeight="648.0" prefWidth="1152.0" stylesheets="@css/Material.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="namesayer.ShopController">
+   <columnConstraints>
+      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints percentHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <HBox alignment="BOTTOM_LEFT" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+      <AnchorPane prefHeight="130.0" prefWidth="1111.0" stylesheets="@css/Material.css" GridPane.columnSpan="3">
+         <styleClass>
+            <String fx:value="background" />
+            <String fx:value="shadow" />
+         </styleClass>
+      </AnchorPane>
+      <Label fx:id="coinsCollectedCounter" alignment="CENTER" prefHeight="52.0" prefWidth="165.0" text="Coins Collected:0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+   </children>
+</GridPane>
