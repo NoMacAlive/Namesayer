@@ -46,8 +46,9 @@ public class Config implements Initializable {
     }
 
     public static void loadCoinsCountProperty() throws IOException {
+        System.out.println(new File(CREATIONS_FOLDER.resolve("CoinsCounter.txt").toAbsolutePath().toString()));
         if(!new File(CREATIONS_FOLDER.resolve("CoinsCounter.txt").toAbsolutePath().toString()).exists()) {
-           Files.createFile(new File(CREATIONS_FOLDER.resolve("CoinsCounter.txt").toAbsolutePath().toString()).toPath());
+            new File(CREATIONS_FOLDER.resolve("CoinsCounter.txt").toAbsolutePath().toString()).createNewFile();
             //build a new property file
             OutputStream output = null;
             try {

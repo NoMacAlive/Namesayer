@@ -76,9 +76,9 @@ public class MenuScreenController implements Initializable {
     public static MenuScreenController getInstance(){
         return Instance;
     }
-    public void onPracticeModeClicked(MouseEvent mouseEvent) throws IOException {
-        //the progress indicator stage is based on code on
-        //https://blog.csdn.net/wingfourever/article/details/8500619#
+    public void onPracticeModeClicked(MouseEvent mouseEvent) throws IOException, InterruptedException {
+//        the progress indicator stage is based on code on
+//        https://blog.csdn.net/wingfourever/article/details/8500619#
         HBox mHbox = new HBox(10);
         ProgressIndicator Bar = new ProgressIndicator(-1);
         Bar.setMaxSize(150, 150);
@@ -131,8 +131,9 @@ public class MenuScreenController implements Initializable {
                 storageManager.clear();
         storageManager.initialize(DATA_BASE, practiceButton);
 //        Optional<Boolean> result = dialog.showAndWait();
-        new Thread(progressTask).start();
-
+        Thread thread1 = new Thread(progressTask);
+               thread1.start();
+               thread1.join();
         Scene scene = practiceButton.getScene();
         Parent root = FXMLLoader.load(getClass().getResource("/NameSelectScreen.fxml"));
         scene.setRoot(root);
