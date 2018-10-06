@@ -239,10 +239,14 @@ public class NameSelectScreenController {
             for (String s2 : nameStorageManager.parseNameFromString(s)) {
                 if (!nameStorageManager.isNameExistInDataBase(s2)) {
                     nameNotInDataBase.add(s);
-                }else{
-                    nameInDataBase.add(s);
+                    break;
+                } else {
+                    if(!nameInDataBase.contains(s)) {
+                        nameInDataBase.add(s);
+                    }
                 }
             }
+        }
             if (nameNotInDataBase.size() > 0) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (String s2 : nameNotInDataBase) {
@@ -253,15 +257,15 @@ public class NameSelectScreenController {
                 alert.setHeaderText("WARNING!");
                 alert.setContentText(stringBuilder.append("are not in the database!").toString());
                 alert.showAndWait();
-            } else {
+            }
                 //TODO: fuse names and display on the listview
                 for(String s1:nameInDataBase) {
                     Name temp = nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(new ArrayList<String>(Arrays.asList(nameStorageManager.parseNameFromString(s1)))));
                     namesConcadenated.add(temp);
                 }
                 nameStorageManager.setNameList(namesConcadenated);
-            }
-        }
+
+
     }
 
 
