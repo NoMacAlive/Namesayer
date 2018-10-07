@@ -52,6 +52,8 @@ public class Name implements Comparable<Name> {
         this(first.getName()+" "+last.getName(), Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
         if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()))) {
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName()));
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/saved"));
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/temp"));
         }
 
 
@@ -66,7 +68,7 @@ public class Name implements Comparable<Name> {
 
             AudioInputStream appendedFiles = new AudioInputStream(new SequenceInputStream(clip1, clip2), clip1.getFormat(), clip1.getFrameLength() + clip2.getFrameLength());
             
-            File concat = new File(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/" +first.getName() + "_" + last.getName() + ".wav");
+            File concat = new File(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/saved/" +first.getName() + "_" + last.getName() + ".wav");
             AudioSystem.write(appendedFiles, AudioFileFormat.Type.WAVE, concat);
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,8 +89,10 @@ public class Name implements Comparable<Name> {
     	
     	if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName))) {
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName));
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName + "/saved"));
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName + "/temp"));
         }
-    	File temp = new File(CREATIONS_FOLDER + "/"+ directoryName + "/" + directoryName + ".wav");
+    	File temp = new File(CREATIONS_FOLDER + "/"+ directoryName + "/saved/" + directoryName + ".wav");
     	
     	String wavFile1 = Paths.get(names.get(0).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
         String wavFile2 = Paths.get(names.get(1).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
