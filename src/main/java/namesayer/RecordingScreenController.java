@@ -41,7 +41,7 @@ public class RecordingScreenController {
 
     private Name selectedName;
 
-
+    @FXML
     public void initialize() {
         names = storageManager.getSelectedNamesList();
 

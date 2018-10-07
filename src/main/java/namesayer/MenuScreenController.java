@@ -101,7 +101,7 @@ public class MenuScreenController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 NameStorageManager storageManager = NameStorageManager.getInstance();
-//                storageManager.clear();
+                storageManager.clear();
                 storageManager.initialize(DATA_BASE, practiceButton);
                 updateMessage("Finish");
                 return null;

@@ -78,9 +78,7 @@ public class NameStorageManager{
             }
         } catch (IOException e) {
 
-        } finally {
-
-        }
+        } 
     }
 
 
@@ -140,14 +138,14 @@ public class NameStorageManager{
                              Recording recording = new Recording(recordingPath);
                              newName.addSavedRecording(recording);
                          } catch (IOException e) {
-                             e.printStackTrace();
+                             //e.printStackTrace();
                          }
                      });
                 //sorts the final list
                 Collections.sort(namesList);
 //                Platform.runLater(() -> button.setDisable(false));
             } catch (IOException e) {
-                e.printStackTrace();
+               // e.printStackTrace();
             }
         });
         thread.start();
