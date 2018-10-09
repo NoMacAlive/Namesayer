@@ -199,7 +199,7 @@ public class NameSelectScreenController {
         result.ifPresent(FirstNameLastName -> {
             Name fusedName = null;
             try {
-                 nameStorageManager.parseNameFromString(FirstNameLastName.getKey().toLowerCase()+"\\s"+FirstNameLastName.getValue().toLowerCase());
+//                 nameStorageManager.parseNameFromString(FirstNameLastName.getKey().toLowerCase()+"\\s"+FirstNameLastName.getValue().toLowerCase());
                 fusedName = nameStorageManager.fusingTwoNames(FirstNameLastName.getKey().toLowerCase(),FirstNameLastName.getValue().toLowerCase());
             } catch (IOException e) {
                 e.printStackTrace();

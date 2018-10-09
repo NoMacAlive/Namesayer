@@ -130,7 +130,7 @@ public class Name implements Comparable<Name> {
 
         	}
         }
-        
+        savedRecordings.add(new Recording(temp.toPath(),true));
         this.name = directoryName; 
         this.directory = Paths.get(CREATIONS_FOLDER + "/"+ directoryName);
     }
