@@ -13,7 +13,26 @@
 }
 
 .background {
-    -fx-background-image: url("background5.jpg");
+    -fx-background-color: #673AB7;
+}
+
+.background1{
+-fx-background-image: url("background1.jpg");
+}
+
+.background2{
+-fx-background-image: url("background2.jpg");
+}
+
+.background3{
+-fx-background-image: url("background3.jpg");
+}
+
+.background4{
+-fx-background-image: url("background4.jpg");
+}
+.background5{
+-fx-background-image: url("background5.jpg");
 }
 
 .shadow {

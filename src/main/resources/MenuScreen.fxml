@@ -40,7 +40,7 @@
             <JFXProgressBar fx:id="MicrophoneVolume" prefHeight="31.0" prefWidth="500.0" progress="0.0" visible="false" />
          </children>
       </HBox>
-      <AnchorPane prefHeight="130.0" prefWidth="1111.0" stylesheets="@css/Material.css" GridPane.columnSpan="3">
+      <AnchorPane fx:id="background" prefHeight="130.0" prefWidth="1111.0" stylesheets="@css/Material.css" GridPane.columnSpan="3">
          <styleClass>
             <String fx:value="background" />
             <String fx:value="shadow" />

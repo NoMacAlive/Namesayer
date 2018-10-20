@@ -86,7 +86,7 @@ public class NameStorageManager{
      * Create new database hierarchy
      */
 
-    public void initialize(Path jkl,Button jk) throws IOException {
+    public void initialize() throws IOException {
 //        Config.loadCoinsCountProperty();
         try {
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
@@ -101,6 +101,8 @@ public class NameStorageManager{
         }
         //Ensure non-blocking
         Thread thread = new Thread(() -> {
+
+
             try (Stream<Path> paths = Files.walk(DATA_BASE)) {
                 Map<String, Name> initializedNames = new HashMap<>();
                 paths.filter(Files::isRegularFile)
@@ -231,7 +233,7 @@ public class NameStorageManager{
         List<Name> output = new ArrayList<>();
         for(Name n:namesList){
             if(names.contains(n.getName().toLowerCase())){
-                if(!output.contains(n)) {
+                if(!output.contains(n)) {//
                     output.add(n);
                 }
             }
