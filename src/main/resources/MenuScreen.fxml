@@ -66,6 +66,7 @@
             <Font size="22.0" />
          </font>
       </JFXButton>
+      
       <JFXButton fx:id="coinsCollectedCounter" text="Coins Collected: 0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
    </children>
 </GridPane>

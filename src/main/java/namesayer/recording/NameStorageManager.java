@@ -71,16 +71,14 @@ public class NameStorageManager{
                         temp.addSavedRecording(new Recording(p, true));//add user created recordings to corresponding name
                     }
                 } catch (IOException e1) {
-//                    e1.printStackTrace();
+                    e1.printStackTrace();
                 }
                 Collections.sort(namesList);
                 Platform.runLater(() -> button.setDisable(false));
             }
         } catch (IOException e) {
 
-        } finally {
-
-        }
+        } 
     }
 
 
@@ -88,7 +86,7 @@ public class NameStorageManager{
      * Create new database hierarchy
      */
 
-    public void initialize(Path jkl,Button jk) throws IOException {
+    public void initialize() throws IOException {
 //        Config.loadCoinsCountProperty();
         try {
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
@@ -103,6 +101,8 @@ public class NameStorageManager{
         }
         //Ensure non-blocking
         Thread thread = new Thread(() -> {
+
+
             try (Stream<Path> paths = Files.walk(DATA_BASE)) {
                 Map<String, Name> initializedNames = new HashMap<>();
                 paths.filter(Files::isRegularFile)
@@ -140,14 +140,14 @@ public class NameStorageManager{
                              Recording recording = new Recording(recordingPath);
                              newName.addSavedRecording(recording);
                          } catch (IOException e) {
-//                             e.printStackTrace();
+                             //e.printStackTrace();
                          }
                      });
                 //sorts the final list
                 Collections.sort(namesList);
 //                Platform.runLater(() -> button.setDisable(false));
             } catch (IOException e) {
-                e.printStackTrace();
+               // e.printStackTrace();
             }
         });
         thread.start();
@@ -233,7 +233,7 @@ public class NameStorageManager{
         List<Name> output = new ArrayList<>();
         for(Name n:namesList){
             if(names.contains(n.getName().toLowerCase())){
-                if(!output.contains(n)) {
+                if(!output.contains(n)) {//
                     output.add(n);
                 }
             }

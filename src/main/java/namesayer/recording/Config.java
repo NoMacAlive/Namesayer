@@ -4,8 +4,10 @@ import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.stage.Stage;
 import namesayer.MenuScreenController;
 import namesayer.ShopController;
 
@@ -32,10 +34,20 @@ public class Config implements Initializable {
     public static Integer counter = 0;
     public static Properties coinsCount= new Properties();
 
+    public static Stage primaryStage;
     public static MenuScreenController mnCtrl;
     public static ShopController shopCtrl;
     public static Parent menuRoot;
     public static Parent shopRoot;
+
+
+    public static Stage getStage(){
+        return primaryStage;
+    }
+
+    public static void setStage(Stage stage){
+        primaryStage = stage;
+    }
 
     public static void IncrementCoinCounter() throws IOException {
         counter++;

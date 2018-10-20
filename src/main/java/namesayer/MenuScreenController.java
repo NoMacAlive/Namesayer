@@ -118,8 +118,8 @@ public class MenuScreenController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 NameStorageManager storageManager = NameStorageManager.getInstance();
-//                storageManager.clear();
-                storageManager.initialize(DATA_BASE, practiceButton);
+                storageManager.clear();
+                storageManager.initialize();
                 updateMessage("Finish");
                 return null;
             }
@@ -129,7 +129,6 @@ public class MenuScreenController implements Initializable {
         Label.textProperty().bind(progressTask.messageProperty());
         NameStorageManager storageManager = NameStorageManager.getInstance();
                 storageManager.clear();
-        storageManager.initialize(DATA_BASE, practiceButton);
 //        Optional<Boolean> result = dialog.showAndWait();
         Thread thread1 = new Thread(progressTask);
                thread1.start();
@@ -207,8 +206,9 @@ public class MenuScreenController implements Initializable {
     }
 
     public void onShopClicked(MouseEvent mouseEvent) throws IOException {
-        Scene scene = shopButton.getScene();
-        scene.setRoot(Config.shopRoot);
+        Stage stage = Config.getStage();
+        Parent root = FXMLLoader.load(getClass().getResource("/Shop.fxml"));
+        shopButton.getScene().setRoot(root);
     }
 
     public static void setBackground(int i){

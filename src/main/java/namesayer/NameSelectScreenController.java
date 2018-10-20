@@ -232,8 +232,10 @@ public class NameSelectScreenController {
             br.close();
         }
 
+
         System.out.println(names);
         //every string in the list represents a name needs concadenation
+
         /**TO BE FINISHED*/
         //TODO: FINISH THE MULTINAME CONCADENATION
         List<String> nameNotInDataBase = new ArrayList<>();
@@ -266,9 +268,8 @@ public class NameSelectScreenController {
                     Name temp = nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(new ArrayList<String>(Arrays.asList(nameStorageManager.parseNameFromString(s1)))));
                     nameStorageManager.addNewNametoList(temp);
                 }
-//                nameStorageManager.setNameList(namesConcadenated);
-
-
+                listOfNames = nameStorageManager.getNamesList();
+                nameListView.setItems(listOfNames);
     }
 
 
