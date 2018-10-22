@@ -31,10 +31,16 @@ public class Recording {
     }
 
     //Play audio using bash command
-    public void playAudio() {
+    public void playAudio(int volume) {
         Thread thread = new Thread(() -> {
-            String command = "ffplay -nodisp -autoexit -loglevel quiet \"" + recordingPath.toAbsolutePath().toString() + "\"";
+            String command = null;
+            if(volume!=50) {
+                command = "ffplay -nodisp -autoexit -loglevel quiet -volume " + volume + " \"" + recordingPath.toAbsolutePath().toString() + "\"";
+            }else{
+                command  = "ffplay -nodisp -autoexit -loglevel quiet \"" + recordingPath.toAbsolutePath().toString() + "\"";
+            }
             ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", command);
+            System.out.println(command);
             try {
                 Process process = builder.start();
                 process.waitFor();
@@ -45,8 +51,8 @@ public class Recording {
         thread.start();
         try {
             Config.IncrementCoinCounter();
-        }catch(IOException e){
-            e.printStackTrace();
+        }catch(Exception e){
+//            e.printStackTrace();
         }
     }
 

@@ -10,6 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import namesayer.recording.Config;
 
 import java.io.File;
@@ -17,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 
 public class ShopController implements Initializable {
@@ -42,30 +47,31 @@ public class ShopController implements Initializable {
     private File bg4;
     private File bg5;
 
+    private File downloadDirectory = null;
 
     public void onSelectAudioDatabaseFolder(MouseEvent mouseEvent) {
     }
 
     public void onBackButtonClicked(MouseEvent mouseEvent) {
-//        Parent root = null;
-//        try {
-//            root = FXMLLoader.load(getClass().getResource("/MenuScreen.fxml"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        Parent root = Config.menuRoot;
-        Scene scene = buyBackground1.getScene();
-        scene.setRoot(root);
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/MenuScreen.fxml"));
+            Scene scene = buyBackground1.getScene();
+            scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Paths.get("C:/Users/zhugu/Desktop"+"/"+bg1.toString()));
+        System.out.println(bg1.isFile());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         coinsCollectedCounter.setText("Coins Collected: "+ Config.getCoinCounter());
-        bg1 = new File("background1.jpg");
-        bg2 = new File("background2.jpg");
-        bg3 = new File("background3.jpg");
-        bg4 = new File("background4.jpg");
-        bg5 = new File("background5.jpg");
+        bg1 = new File("src/background1.jpg");
+        bg2 = new File("src/background2.jpg");
+        bg3 = new File("src/background3.jpg");
+        bg4 = new File("src/background4.jpg");
+        bg5 = new File("src/background5.jpg");
 //        menuLoader = new FXMLLoader(getClass().getResource("MenuScreen.fxml"));
 //        try {
 //            Parent root = (Parent) menuLoader.load();
@@ -76,57 +82,60 @@ public class ShopController implements Initializable {
     }
 
     public void onBuyBackground1Clicked(MouseEvent mouseEvent) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MenuScreen.fxml"));
-//        Parent root = loader.load();
-//        MenuScreenController controller = loader.getController();
-        MenuScreenController.setBackground(1);
-//        Scene scene = buyBackground1.getScene();
-//        scene.setRoot(root);
         if(Config.counter>=20) {
-            background.getStyleClass().clear();
-            background.getStyleClass().add("background1");
+            if(downloadDirectory!=null){
+                Files.copy(bg1.toPath(), Paths.get(downloadDirectory.toString()+"/"+bg1.toString().substring(4)), StandardCopyOption.REPLACE_EXISTING);
+            }else{
+                chooseADirectory();
+            }
         }else{
             showCoinNotEnough();
         }
     }
 
-    public void onBuyBackground2Clicked(MouseEvent mouseEvent) {
-        Config.mnCtrl.background.getStyleClass().clear();
-        Config.mnCtrl.background.getStyleClass().add("background2");
-
+    public void onBuyBackground2Clicked(MouseEvent mouseEvent) throws IOException {
         if(Config.counter>=50) {
-            background.getStyleClass().clear();
-            background.getStyleClass().add("background2");
+            if(downloadDirectory!=null){
+                Files.copy(bg2.toPath(), Paths.get(downloadDirectory.toString()+"/"+bg2.toString().substring(4)), StandardCopyOption.REPLACE_EXISTING);
+            }else{
+                chooseADirectory();
+            }
         }else{
             showCoinNotEnough();
         }
     }
 
-    public void onBuyBackground4Clicked(MouseEvent mouseEvent) {
-        MenuScreenController.setBackground(4);
+    public void onBuyBackground3Clicked(MouseEvent mouseEvent) throws IOException {
         if(Config.counter>=100) {
-            background.getStyleClass().clear();
-            background.getStyleClass().add("background4");
+            if(downloadDirectory!=null){
+                Files.copy(bg3.toPath(), Paths.get(downloadDirectory.toString()+"/"+bg3.toString().substring(4)), StandardCopyOption.REPLACE_EXISTING);
+            }else{
+                chooseADirectory();
+            }
         }else{
             showCoinNotEnough();
         }
     }
 
-    public void onBuyBackground3Clicked(MouseEvent mouseEvent) {
-        MenuScreenController.setBackground(3);
+    public void onBuyBackground4Clicked(MouseEvent mouseEvent) throws IOException {
         if(Config.counter>=100) {
-            background.getStyleClass().clear();
-            background.getStyleClass().add("background3");
+            if(downloadDirectory!=null){
+                Files.copy(bg4.toPath(), Paths.get(downloadDirectory.toString()+"/"+bg4.toString().substring(4)), StandardCopyOption.REPLACE_EXISTING);
+            }else{
+                chooseADirectory();
+            }
         }else{
             showCoinNotEnough();
         }
     }
 
-    public void onBuyBackground5Clicked(MouseEvent mouseEvent) {
-        MenuScreenController.setBackground(5);
+    public void onBuyBackground5Clicked(MouseEvent mouseEvent) throws IOException {
         if(Config.counter>=150) {
-            background.getStyleClass().clear();
-            background.getStyleClass().add("background5");
+            if(downloadDirectory!=null){
+                Files.copy(bg5.toPath(), Paths.get(downloadDirectory.toString()+"/"+bg5.toString().substring(4)), StandardCopyOption.REPLACE_EXISTING);
+            }else{
+                chooseADirectory();
+            }
         }else{
             showCoinNotEnough();
         }
@@ -138,5 +147,11 @@ public class ShopController implements Initializable {
         dialog.setContentText("NOT SUFFICIENT COIN");
         dialog.show();
 
+    }
+
+    public void chooseADirectory() {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Please select the directory for downloaded wallpaper!");
+        downloadDirectory = chooser.showDialog(buyBackground1.getScene().getWindow());
     }
 }

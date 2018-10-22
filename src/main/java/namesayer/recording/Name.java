@@ -34,6 +34,7 @@ public class Name implements Comparable<Name> {
     //Store recordings as observables so we can bind them through viewmodel pattern
     private ObservableList<Recording> savedRecordings = FXCollections.observableArrayList();
     private ObservableList<Recording> tempRecordings = FXCollections.observableArrayList();
+    private boolean hasUserAttempt = false;
 
     public Name(String name, Path directory) {
         this.name = name;
@@ -50,10 +51,6 @@ public class Name implements Comparable<Name> {
 
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ first.getName() + "_" + last.getName() + "/saved"));
             Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ first.getName() + "_" + last.getName() +"/temp"));
-
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/saved"));
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+first.getName() + "_" + last.getName() + "/temp"));
-
         }
 
         File[] filesFirstName = new File(CREATIONS_FOLDER + "/"+first.getName()  + "/saved").listFiles();
@@ -88,58 +85,23 @@ public class Name implements Comparable<Name> {
         
     }
     
-    //This constructor takes a list of names and returns concatenated version
-    public Name(List<Name> names) throws IOException {
-    	String directoryName = names.get(0).toString();
-    	for(int i=1; i<names.size(); i++) {
-    		directoryName = directoryName + "_" + names.get(i).toString(); 
+    public Name(List<Name> names) {
+    	StringBuilder strbuilder = new StringBuilder();
+    	for(Name name:names) {
+    		strbuilder.append(name.getName()+"_");
     	}
-    	
-    	//Create new directory
-    	if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName))) {
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName));
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName + "/saved"));
-            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ directoryName +"/temp"));
+    	strbuilder.deleteCharAt(strbuilder.length()-1);
+    	this.name = strbuilder.toString();
+    	if (!Files.isDirectory(Paths.get(CREATIONS_FOLDER + "/"+ name))) {
+    		try {
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/" + name));
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ name + "/saved"));
+            Files.createDirectory(Paths.get(CREATIONS_FOLDER + "/"+ name +"/temp"));
+    		}catch(IOException e) {
+    			e.printStackTrace();
+    		}
         }
-
-    	File temp = new File(CREATIONS_FOLDER + "/"+ directoryName + "/saved/" + directoryName + ".wav");
-    	
-    	String wavFile1 = Paths.get(names.get(0).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
-        String wavFile2 = Paths.get(names.get(1).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
-        try {
-            AudioInputStream clip1 = AudioSystem.getAudioInputStream(new File(wavFile1));
-            AudioInputStream clip2 = AudioSystem.getAudioInputStream(new File(wavFile2));
-
-            AudioInputStream appendedFiles = new AudioInputStream(new SequenceInputStream(clip1, clip2), clip1.getFormat(), clip1.getFrameLength() + clip2.getFrameLength());
-            
-            AudioSystem.write(appendedFiles, AudioFileFormat.Type.WAVE, temp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        //Add each name to the temp recording
-        if (names.size() > 2) { 
-        	for(int i=2; i<names.size(); i++) {
-        		
-                String toAdd = Paths.get(names.get(1).getSavedRecordings().get(0).getRecordingPath().toString()).toString();
-                try {
-                    AudioInputStream clip1 = AudioSystem.getAudioInputStream(temp);
-                    AudioInputStream clip2 = AudioSystem.getAudioInputStream(new File(toAdd));
-
-                    AudioInputStream appendedFiles = new AudioInputStream(new SequenceInputStream(clip1, clip2), clip1.getFormat(), clip1.getFrameLength() + clip2.getFrameLength());
-                    
-                   
-                    AudioSystem.write(appendedFiles, AudioFileFormat.Type.WAVE, temp);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-        		
-
-        	}
-        }
-        savedRecordings.add(new Recording(temp.toPath(),true));
-        this.name = directoryName; 
-        this.directory = Paths.get(CREATIONS_FOLDER + "/"+ directoryName);
+    	this.directory = Paths.get("recordings/"+this.name);
     }
 
 
@@ -167,9 +129,9 @@ public class Name implements Comparable<Name> {
     public void makeNewRecording(String recordingName) {
         Thread thread = new Thread(() -> {
             Path newRecordingPath = directory.resolve(TEMP_RECORDINGS).resolve(recordingName + WAV_EXTENSION).toAbsolutePath();
-            String command = "ffmpeg -loglevel \"quiet\" -f alsa -i default -t 3 -acodec pcm_s16le -ar 16000 -ac 1 -y \"" +
-                    newRecordingPath.toString() + "\"";
+            String command = "ffmpeg -loglevel \"quiet\" -f alsa -i default -t 3 -y \"" + newRecordingPath.toString() + "\"";
             ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", command);
+            System.out.println(command);
             try {
                 Process process = builder.start();
                 process.waitFor();
@@ -179,6 +141,7 @@ public class Name implements Comparable<Name> {
             }
         });
         thread.start();
+        hasUserAttempt = true;
     }
 
     public void addSavedRecording(Recording recording) {
@@ -282,5 +245,22 @@ public class Name implements Comparable<Name> {
     @Override
     public int compareTo(Name o) {
         return this.getName().compareTo(o.getName());
+    }
+    
+    public Recording getARecording() {
+    	Recording randomRecording= null;
+    	if(!savedRecordings.isEmpty()) {
+    		randomRecording = savedRecordings.get(0);
+    	}
+    	return randomRecording;
+    }
+
+    public boolean isUserAttempted() {
+        return hasUserAttempt;
+    }
+
+    public void playAssess() {
+        savedRecordings.get(0).playAudio(50);
+        savedRecordings.get(savedRecordings.size()-1).playAudio(50);
     }
 }

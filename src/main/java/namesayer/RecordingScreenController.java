@@ -29,6 +29,7 @@ import java.io.IOException;
 
 
 public class RecordingScreenController {
+    public JFXButton AssessButton;
     @FXML private GridPane parentPane;
     @FXML private JFXListView<Name> selectedNamesListView;
     @FXML private JFXListView<Recording> savedRecordingListView;
@@ -200,5 +201,17 @@ public class RecordingScreenController {
 
     public void hidePlayer() {
         actionViewContainer.getChildren().clear();
+    }
+
+    public void onAssessButtonClicked(MouseEvent mouseEvent) throws IOException {
+        if (selectedName != null) {
+            if(!selectedName.isUserAttempted()) {
+                bar.enqueue(new JFXSnackbar.SnackbarEvent("No Recording have been recorded"));
+            }else{
+                selectedName.playAssess();
+            }
+        } else {
+            bar.enqueue(new JFXSnackbar.SnackbarEvent("Please select a name first"));
+        }
     }
 }

@@ -32,6 +32,9 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+//        String str = "xu-liu";
+//        String st = str.replace('-',' ');
+//        System.out.println(st);
         launch(args);
     }
 }

@@ -5,6 +5,9 @@
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -36,6 +39,17 @@
             <String fx:value="background" />
             <String fx:value="shadow" />
          </styleClass>
+         <children>
+            <MenuBar layoutX="1087.0" layoutY="2.0" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="1087.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="2.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
       </AnchorPane>
       <JFXButton fx:id="coinsCollectedCounter" alignment="CENTER" disable="true" prefHeight="197.0" prefWidth="361.0" text="Coins Collected: 0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <font>
@@ -55,7 +69,7 @@
                </image>
             </ImageView>
             <Label fx:id="coin20" disable="true" text="20 coins" />
-            <JFXButton fx:id="buyBackground1" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground1Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
+            <JFXButton fx:id="buyBackground1" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground1Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -70,7 +84,7 @@
                </image>
             </ImageView>
             <Label fx:id="coin50" disable="true" text="50 coins" />
-            <JFXButton buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground2Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
+            <JFXButton buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground2Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -85,7 +99,7 @@
                </image>
             </ImageView>
             <Label fx:id="coin100" disable="true" text="100 coins" />
-            <JFXButton fx:id="buyBackground4" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground4Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
+            <JFXButton fx:id="buyBackground4" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground4Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -100,7 +114,7 @@
                </image>
             </ImageView>
             <Label disable="true" text="100 coins" />
-            <JFXButton fx:id="buyBackground3" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground3Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
+            <JFXButton fx:id="buyBackground3" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground3Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -115,7 +129,7 @@
                </image>
             </ImageView>
             <Label fx:id="coin150" disable="true" text="150 coins" />
-            <JFXButton fx:id="buyBackground5" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground5Clicked" stylesheets="@css/Material.css" text="Purchase and Set Background">
+            <JFXButton fx:id="buyBackground5" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground5Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

@@ -1,6 +1,7 @@
 package namesayer;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.effects.JFXDepthManager;
 import javafx.animation.KeyFrame;
@@ -15,6 +16,7 @@ import org.controlsfx.control.Rating;
 
 public class PlayerFragmentController {
 
+    @FXML public JFXSlider volumeSlider;
     @FXML private JFXButton playButton;
     @FXML private JFXSpinner spinner;
     @FXML private GridPane playerCard;
@@ -38,7 +40,7 @@ public class PlayerFragmentController {
      */
     @FXML
     public void onPlayButtonClicked(MouseEvent mouseEvent) {
-        recording.playAudio();
+        recording.playAudio((int)volumeSlider.getValue());
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0), new KeyValue(spinner.progressProperty(), 0)),
                 new KeyFrame(Duration.seconds(recording.getLength()), new KeyValue(spinner.progressProperty(), 1)));

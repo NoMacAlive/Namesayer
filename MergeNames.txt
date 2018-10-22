@@ -1,0 +1,4 @@
+file ./recordings\Xuyun\saved\se206_4-5-2018_15-56-40_Xuyun.wav
+file ./recordings\Maggie\saved\se206_18-5-2018_11-6-43_maggie.wav
+file ./recordings\Li\saved\se206_17-5-2018_12-3-36_Li.wav
+file ./recordings\Lee\saved\se206_18-5-2018_11-8-55_Lee.wav

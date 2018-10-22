@@ -49,10 +49,9 @@ public class Config implements Initializable {
         primaryStage = stage;
     }
 
-    public static void IncrementCoinCounter() throws IOException {
+    public static void IncrementCoinCounter() throws Exception {
         counter++;
         coinCounter.setText("Coins Collected: "+counter);
-
         coinsCount.setProperty("coin",counter.toString());
         coinsCount.store(new FileOutputStream(CREATIONS_FOLDER.resolve("CoinsCounter.txt").toAbsolutePath().toString()),"This is the property of the coins count"+new Date().toString());
     }
@@ -112,5 +111,20 @@ public class Config implements Initializable {
         } catch (IOException e) {
             System.out.println("Something went wrong");
         }
+    }
+    
+    public static void deleteAllFiles(File path) {
+    	if(!path.exists()) {
+    		return;
+    	}
+    	if(path.isFile()) {
+    		path.delete();
+    		return;
+    	}
+    	
+    	for(File f:path.listFiles()) {
+    		deleteAllFiles(f);
+    	}
+    	path.delete();
     }
 }

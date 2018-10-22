@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import namesayer.NameSelectScreenController;
+import namesayer.util.MergeTask;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,8 +30,8 @@ public class NameStorageManager{
     private static NameStorageManager instance = null;
     private static List<String> nameStringList = new ArrayList<>();
 
-    private List<Name> namesList = new LinkedList<>();
-
+    private static List<Name> namesList = new LinkedList<>();
+    private Map<String,Name> userAttempts = new HashMap<>();
 
     public static NameStorageManager getInstance() {
         if (instance == null) {
@@ -92,17 +93,18 @@ public class NameStorageManager{
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
                 Files.createDirectory(CREATIONS_FOLDER);
             } else {
-                Files.walk(CREATIONS_FOLDER)
-                     .map(Path::toFile)
-                     .forEach(File::delete);
+//                Files.walk(CREATIONS_FOLDER)
+//                     .map(Path::toFile)
+//                     .forEach(File::delete);
+            	
+            	Config.deleteAllFiles(CREATIONS_FOLDER.toFile());
+            	Files.createDirectory(CREATIONS_FOLDER);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         //Ensure non-blocking
         Thread thread = new Thread(() -> {
-
-
             try (Stream<Path> paths = Files.walk(DATA_BASE)) {
                 Map<String, Name> initializedNames = new HashMap<>();
                 paths.filter(Files::isRegularFile)
@@ -160,9 +162,7 @@ public class NameStorageManager{
         namesList.clear();
     }
 
-    public void saveAllTempRecordings() {
-        namesList.forEach(Name::saveTempRecordings);
-    }
+    public void saveAllTempRecordings() { namesList.forEach(Name::saveTempRecordings); }
 
     public void removeAllTempRecordings() {
         namesList.forEach(Name::removeTempRecordings);
@@ -201,7 +201,7 @@ public class NameStorageManager{
         return new Name(first,last);
     }
 
-    public void addNewNametoList(Name newName){
+    public static void addNewNametoList(Name newName){
         namesList.add(0,newName);
     }
     public void setNameList(List<Name> list){ namesList = list; }
@@ -214,14 +214,20 @@ public class NameStorageManager{
 
     //this method takes a string as input which is one of the name the user wish to practice
     public String[] parseNameFromString(String str){
-        str = str.replace("\\-","\\s");
-        return str.split("\\s");
+        String st = str.replace('-',' ');
+        return st.split("\\s");
     }
 
     //This method takes a list of strings and return a new Name object
     //the new Name object is a concatenation of the names in the list in the given order
-    public Name fuseMultiNames(List<Name> names) throws IOException {
-    	return new Name(names);
+    public void fuseMultiNames(List<Name> names) throws IOException {
+    	for(Name n:names) {
+    		System.out.println(n.getName());
+    	}
+    	
+    	MergeTask merge = new MergeTask(names);
+    	Thread th = new Thread(merge);
+		th.start();
     }
 
     //this method gives a Name list using the input List<String> as a reference
@@ -231,12 +237,17 @@ public class NameStorageManager{
             s=s.toLowerCase();
         }
         List<Name> output = new ArrayList<>();
+        Map<Integer,Name> map = new HashMap<>();
         for(Name n:namesList){
             if(names.contains(n.getName().toLowerCase())){
-                if(!output.contains(n)) {//
-                    output.add(n);
+                if(!output.contains(n)) {
+                    map.put(names.indexOf(n.getName().toLowerCase()),n);
+
                 }
             }
+        }
+        for(int i=0;i<map.size();i++){
+            output.add(map.get(i));
         }
         return output;
     }

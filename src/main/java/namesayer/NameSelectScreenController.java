@@ -198,21 +198,22 @@ public class NameSelectScreenController {
 
         result.ifPresent(FirstNameLastName -> {
             Name fusedName = null;
+            List<Name> name = nameStorageManager.getNameListForStrings(Arrays.asList(nameStorageManager.parseNameFromString(FirstNameLastName.getKey().toLowerCase()+"\\s"+FirstNameLastName.getValue().toLowerCase())));
             try {
-//                 nameStorageManager.parseNameFromString(FirstNameLastName.getKey().toLowerCase()+"\\s"+FirstNameLastName.getValue().toLowerCase());
-                fusedName = nameStorageManager.fusingTwoNames(FirstNameLastName.getKey().toLowerCase(),FirstNameLastName.getValue().toLowerCase());
+//              nameStorageManager.parseNameFromString(FirstNameLastName.getKey().toLowerCase()+"\\s"+FirstNameLastName.getValue().toLowerCase());
+                nameStorageManager.fuseMultiNames(name);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(fusedName==null){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning Dialog");
-                alert.setHeaderText("WARNING!");
-                alert.setContentText("There are no such names in the database!");
-                alert.showAndWait();
-            }else {
-                nameStorageManager.addNewNametoList(fusedName);
-            }
+//            if(fusedName==null){
+//                Alert alert = new Alert(Alert.AlertType.WARNING);
+//                alert.setTitle("Warning Dialog");
+//                alert.setHeaderText("WARNING!");
+//                alert.setContentText("There are no such names in the database!");
+//                alert.showAndWait();
+//            }else {
+//                nameStorageManager.addNewNametoList(fusedName);
+//            }
             initialize();
             });
 
@@ -231,11 +232,7 @@ public class NameSelectScreenController {
             }
             br.close();
         }
-
-
-        System.out.println(names);
         //every string in the list represents a name needs concadenation
-
         /**TO BE FINISHED*/
         //TODO: FINISH THE MULTINAME CONCADENATION
         List<String> nameNotInDataBase = new ArrayList<>();
@@ -265,8 +262,13 @@ public class NameSelectScreenController {
             }
                 //TODO: fuse names and display on the listview
                 for(String s1:nameInDataBase) {
-                    Name temp = nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(new ArrayList<String>(Arrays.asList(nameStorageManager.parseNameFromString(s1)))));
-                    nameStorageManager.addNewNametoList(temp);
+                    nameStorageManager.fuseMultiNames(nameStorageManager.getNameListForStrings(new ArrayList<String>(Arrays.asList(nameStorageManager.parseNameFromString(s1)))));
+                    try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
                 listOfNames = nameStorageManager.getNamesList();
                 nameListView.setItems(listOfNames);

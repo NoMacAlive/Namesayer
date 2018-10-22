@@ -57,20 +57,6 @@ public class MenuScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         coinsCollectedCounter.setText("Coins Collected: "+Config.getCoinCounter().toString());
         String s = null;
-//        switch (backGroundNumber){
-//            case 1: s = "background1";
-//            case 2: s = "background2";
-//            case 3: s = "background3";
-//            case 4: s = "background4";
-//            case 5: s = "background5";
-//
-//        }
-//        try {
-//            background.getStyleClass().add(s);
-////            background.getStyleClass().clear();
-//        }catch (NullPointerException e){
-//
-//        }
     }
 
     public static MenuScreenController getInstance(){
@@ -117,9 +103,9 @@ public class MenuScreenController implements Initializable {
 
             @Override
             protected Void call() throws Exception {
-                NameStorageManager storageManager = NameStorageManager.getInstance();
-                storageManager.clear();
-                storageManager.initialize();
+//              NameStorageManager storageManager = NameStorageManager.getInstance();
+//              storageManager.clear();
+//              storageManager.initialize();
                 updateMessage("Finish");
                 return null;
             }
@@ -127,8 +113,8 @@ public class MenuScreenController implements Initializable {
         veil.visibleProperty().bind(progressTask.runningProperty());
         Bar.progressProperty().bind(progressTask.progressProperty());
         Label.textProperty().bind(progressTask.messageProperty());
-        NameStorageManager storageManager = NameStorageManager.getInstance();
-                storageManager.clear();
+//        NameStorageManager storageManager = NameStorageManager.getInstance();
+//        storageManager.clear();
 //        Optional<Boolean> result = dialog.showAndWait();
         Thread thread1 = new Thread(progressTask);
                thread1.start();
@@ -136,10 +122,10 @@ public class MenuScreenController implements Initializable {
         Scene scene = practiceButton.getScene();
         Parent root = FXMLLoader.load(getClass().getResource("/NameSelectScreen.fxml"));
         scene.setRoot(root);
-        System.out.println("Number of names in list: "+storageManager.getNamesList().size());
+//        System.out.println("Number of names in list: "+storageManager.getNamesList().size());
     }
 
-    //reveal the progressbar after microphone button being clicked
+    //reveal the progress bar after microphone button being clicked
     public void onMicrophoneButtonClicked() {
         if (isFirstTimeClickMic) {
             MicrophoneVolume.setVisible(true);

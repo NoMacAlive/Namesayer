@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Maven: com.jfoenix:jfoenix:8.0.7">
+    <archive path="C:/Users/zhugu/.m2/repository/com/jfoenix/jfoenix/8.0.7/jfoenix-8.0.7.jar" />
+  </library>
+  <library name="Maven: de.jensd:fontawesomefx-commons:8.15">
+    <archive path="C:/Users/zhugu/.m2/repository/de/jensd/fontawesomefx-commons/8.15/fontawesomefx-commons-8.15.jar" />
+  </library>
+  <library name="Maven: de.jensd:fontawesomefx-materialdesignfont:1.7.22-4">
+    <archive path="C:/Users/zhugu/.m2/repository/de/jensd/fontawesomefx-materialdesignfont/1.7.22-4/fontawesomefx-materialdesignfont-1.7.22-4.jar" />
+  </library>
+  <library name="Maven: de.jensd:fontawesomefx-materialicons:2.2.0-5">
+    <archive path="C:/Users/zhugu/.m2/repository/de/jensd/fontawesomefx-materialicons/2.2.0-5/fontawesomefx-materialicons-2.2.0-5.jar" />
+  </library>
+  <library name="Maven: org.controlsfx:controlsfx:8.40.14">
+    <archive path="C:/Users/zhugu/.m2/repository/org/controlsfx/controlsfx/8.40.14/controlsfx-8.40.14.jar" />
+  </library>
+</eclipse-userlibraries>
+
