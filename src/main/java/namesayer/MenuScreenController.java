@@ -30,13 +30,12 @@ import namesayer.recording.NameStorageManager;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.TargetDataLine;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static namesayer.recording.Config.DATA_BASE;
 
 public class MenuScreenController implements Initializable {
 
@@ -62,6 +61,7 @@ public class MenuScreenController implements Initializable {
     public static MenuScreenController getInstance(){
         return Instance;
     }
+
     public void onPracticeModeClicked(MouseEvent mouseEvent) throws IOException, InterruptedException {
 //        the progress indicator stage is based on code on
 //        https://blog.csdn.net/wingfourever/article/details/8500619#
@@ -103,9 +103,6 @@ public class MenuScreenController implements Initializable {
 
             @Override
             protected Void call() throws Exception {
-//              NameStorageManager storageManager = NameStorageManager.getInstance();
-//              storageManager.clear();
-//              storageManager.initialize();
                 updateMessage("Finish");
                 return null;
             }
@@ -113,16 +110,14 @@ public class MenuScreenController implements Initializable {
         veil.visibleProperty().bind(progressTask.runningProperty());
         Bar.progressProperty().bind(progressTask.progressProperty());
         Label.textProperty().bind(progressTask.messageProperty());
-//        NameStorageManager storageManager = NameStorageManager.getInstance();
-//        storageManager.clear();
-//        Optional<Boolean> result = dialog.showAndWait();
+
         Thread thread1 = new Thread(progressTask);
                thread1.start();
                thread1.join();
         Scene scene = practiceButton.getScene();
         Parent root = FXMLLoader.load(getClass().getResource("/NameSelectScreen.fxml"));
         scene.setRoot(root);
-//        System.out.println("Number of names in list: "+storageManager.getNamesList().size());
+
     }
 
     //reveal the progress bar after microphone button being clicked
@@ -173,11 +168,11 @@ public class MenuScreenController implements Initializable {
 
     }
 
-    //imports the files hierarchy
+    //loadAnother Database
     public void onSelectLoadPreviousFolder(MouseEvent mouseEvent) throws IOException {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        chooser.setTitle("Select the existing database for your names");
+        chooser.setTitle("Select the another database for your names");
         File selectedDirectory = chooser.showDialog(practiceButton.getScene().getWindow());
         if (selectedDirectory != null) {
             NameStorageManager storageManager = NameStorageManager.getInstance();
@@ -192,33 +187,27 @@ public class MenuScreenController implements Initializable {
     }
 
     public void onShopClicked(MouseEvent mouseEvent) throws IOException {
-        Stage stage = Config.getStage();
         Parent root = FXMLLoader.load(getClass().getResource("/Shop.fxml"));
         shopButton.getScene().setRoot(root);
     }
 
     public static void setBackground(int i){
-//        background.setBackground(new Background(new BackgroundFill(new ImagePattern(new Image(getClass().getClassLoader().getResource("css"+image).toString())), CornerRadii.EMPTY, Insets.EMPTY)));
         backGroundNumber = i;
     }
 
     public void updateCoinCount(String txt){
         coinsCollectedCounter.setText(txt);
     }
-//
-//    public void onSelectAudioDatabaseFolder(MouseEvent mouseEvent) {
-//        DirectoryChooser chooser = new DirectoryChooser();
-//        chooser.setTitle("Select the audio database for your names");
-//        File selectedDirectory = chooser.showDialog(practiceButton.getScene().getWindow());
-//        if (selectedDirectory != null) {
-//            NameStorageManager storageManager = NameStorageManager.getInstance();
-//            storageManager.clear();
-//            storageManager.initialize(selectedDirectory.toPath(), practiceButton);
-//            loadNewDataBaseButton.setDisable(true);
-//            loadExistingDataBaseButton.setDisable(true);
-//            practiceButton.setDisable(false);
-//        }
-//    }
 
+    public void onHelpPressed(MouseEvent mouseEvent) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File("HELP.pdf");
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                // no application registered for PDFs
+            }
+        }
+    }
 
 }

@@ -11,6 +11,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Recording {
 
@@ -20,6 +21,9 @@ public class Recording {
     //Property to store the rating which is binded to ratings file
     private DoubleProperty rating = new SimpleDoubleProperty(3.0);
 
+    public void switchToNormalised(){
+        recordingPath = Paths.get(this.getRecordingPath().toAbsolutePath().toString().substring(0,this.getRecordingPath().toAbsolutePath().toString().length()-4)+"1"+Config.WAV_EXTENSION);
+    }
 
     public Recording(Path recordingPath) {
         this(recordingPath, false);

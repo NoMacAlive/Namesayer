@@ -84,7 +84,11 @@ public class Name implements Comparable<Name> {
         addSavedRecording(recording); 
         
     }
-    
+
+    /**
+     * This constructor concadenate multiple names and return a new concadenated name
+     * @param names
+     */
     public Name(List<Name> names) {
     	StringBuilder strbuilder = new StringBuilder();
     	for(Name name:names) {
@@ -255,10 +259,17 @@ public class Name implements Comparable<Name> {
     	return randomRecording;
     }
 
+    /**
+     * Returns a boolean indicate if the user has attempted this name
+     * @return
+     */
     public boolean isUserAttempted() {
         return hasUserAttempt;
     }
 
+    /**
+     * play two recordings sequentially, one is a recording from the database another one is the lastest user attempt
+     */
     public void playAssess() {
         savedRecordings.get(0).playAudio(50);
         savedRecordings.get(savedRecordings.size()-1).playAudio(50);

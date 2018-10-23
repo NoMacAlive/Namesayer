@@ -23,18 +23,12 @@ public class Main extends Application {
 //        Config.loadCoinsCountProperty();
         NameStorageManager.getInstance().initialize();
         Parent root = FXMLLoader.load(getClass().getResource("/MenuScreen.fxml"));
-        Config.setStage(primaryStage);
-        primaryStage.setTitle("Name Sayer");
+        primaryStage.setTitle("Name Sayer by Isabelle and Guangya");
         primaryStage.setScene(new Scene(root, 1152, 648));
         primaryStage.show();
 
     }
 
 
-    public static void main(String[] args) {
-//        String str = "xu-liu";
-//        String st = str.replace('-',' ');
-//        System.out.println(st);
-        launch(args);
-    }
+    public static void main(String[] args) {launch(args);}
 }

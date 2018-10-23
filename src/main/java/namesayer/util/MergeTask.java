@@ -44,13 +44,14 @@ public class MergeTask extends Task<String>{
 		//write all the name paths in MergeNames 
 		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(directory + "/MergeNames.txt"), "utf-8"));
 		for(Name name: namesToMerge) {
-			writer.write("file ./"+name.getARecording().getRecordingPath().toString());
+			writer.write("file "+name.getARecording().getRecordingPath().toString());
 			writer.write("\n");
 		}
 		writer.close();
 
 
             String cmd = "ffmpeg -y -f concat -safe 0 -i \"MergeNames.txt\" -c copy "+ conName.getDirectory()+"/saved/"+conName.getName()+Config.WAV_EXTENSION;
+			System.out.println(cmd);
             ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
             try {
                 Process process = builder.start();

@@ -3,13 +3,6 @@ package namesayer.recording;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.stage.Stage;
-import namesayer.MenuScreenController;
-import namesayer.ShopController;
 
 import java.io.*;
 import java.net.URL;
@@ -34,21 +27,11 @@ public class Config implements Initializable {
     public static Integer counter = 0;
     public static Properties coinsCount= new Properties();
 
-    public static Stage primaryStage;
-    public static MenuScreenController mnCtrl;
-    public static ShopController shopCtrl;
-    public static Parent menuRoot;
-    public static Parent shopRoot;
 
-
-    public static Stage getStage(){
-        return primaryStage;
-    }
-
-    public static void setStage(Stage stage){
-        primaryStage = stage;
-    }
-
+    /**
+     * This method increase the coin count by one
+     * @throws Exception
+     */
     public static void IncrementCoinCounter() throws Exception {
         counter++;
         coinCounter.setText("Coins Collected: "+counter);
@@ -56,6 +39,10 @@ public class Config implements Initializable {
         coinsCount.store(new FileOutputStream(CREATIONS_FOLDER.resolve("CoinsCounter.txt").toAbsolutePath().toString()),"This is the property of the coins count"+new Date().toString());
     }
 
+    /**
+     * This method is invoked at the start up of the app and it load coin counts from previous session
+     * @throws IOException
+     */
     public static void loadCoinsCountProperty() throws IOException {
         System.out.println(new File(CREATIONS_FOLDER.resolve("CoinsCounter.txt").toAbsolutePath().toString()));
         if(!new File(CREATIONS_FOLDER.resolve("CoinsCounter.txt").toAbsolutePath().toString()).exists()) {
@@ -88,31 +75,27 @@ public class Config implements Initializable {
         }
     }
 
+    /**
+     * returns the coin count
+     * @return
+     */
     public static Integer getCoinCounter(){
         return counter;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FXMLLoader mnloader = new FXMLLoader(getClass().getResource("MenuScreen.fxml"));
-        FXMLLoader shoploader = new FXMLLoader(getClass().getResource("Shop.fxml"));
-        try {
-            menuRoot = mnloader.load();
-            mnCtrl = mnloader.getController();
-            shopRoot = shoploader.load();
-            shopCtrl = shoploader.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         try {
             loadCoinsCountProperty();
         } catch (IOException e) {
             System.out.println("Something went wrong");
         }
     }
-    
+
+    /**
+     * little util to delete all directory and files in path
+     * @param path
+     */
     public static void deleteAllFiles(File path) {
     	if(!path.exists()) {
     		return;

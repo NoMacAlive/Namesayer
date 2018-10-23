@@ -3,6 +3,7 @@ package namesayer.recording;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import namesayer.NameSelectScreenController;
@@ -29,10 +30,15 @@ public class NameStorageManager{
     private static final Pattern REGEX_NAME_PARSER = Pattern.compile("[a-zA-Z]+(?:\\.wav)");
     private static NameStorageManager instance = null;
     private static List<String> nameStringList = new ArrayList<>();
+    private static List<Recording> AllRecordingsFromDataBase = new ArrayList<>();
 
     private static List<Name> namesList = new LinkedList<>();
     private Map<String,Name> userAttempts = new HashMap<>();
 
+    /**
+     * The use of singleton pattern to ensure that every namestoragemanager is the same one that holds the same database
+     * @return NameStorageManager
+     */
     public static NameStorageManager getInstance() {
         if (instance == null) {
             instance = new NameStorageManager();
@@ -56,7 +62,6 @@ public class NameStorageManager{
                 //load the properties
                 ratingProperties.load(new FileInputStream(e.resolve(RATINGS).toFile()));
                 try (DirectoryStream<Path> stream1 = Files.newDirectoryStream(e.resolve(SAVED_RECORDINGS))) {
-
                     for (Path p : stream1) {
                         Recording recording = new Recording(p);
                         double rating = Double.valueOf(ratingProperties.getProperty(recording.toString()));
@@ -86,18 +91,13 @@ public class NameStorageManager{
     /**
      * Create new database hierarchy
      */
-
-    public void initialize() throws IOException {
+    public void initialize() throws IOException, InterruptedException {
 //        Config.loadCoinsCountProperty();
         try {
             if (!Files.isDirectory(CREATIONS_FOLDER)) {
                 Files.createDirectory(CREATIONS_FOLDER);
             } else {
-//                Files.walk(CREATIONS_FOLDER)
-//                     .map(Path::toFile)
-//                     .forEach(File::delete);
-            	
-            	Config.deleteAllFiles(CREATIONS_FOLDER.toFile());
+            	Config.deleteAllFiles(CREATIONS_FOLDER.toFile()); //deleting the existing one and build another empty folder
             	Files.createDirectory(CREATIONS_FOLDER);
             }
         } catch (IOException e) {
@@ -114,7 +114,6 @@ public class NameStorageManager{
                          String name = "unrecognized";
                          if (matcher.find()) {
                              name = matcher.group(0).replace(".wav", "").toLowerCase();
-                             //TODO:initialise in loading method
                              nameStringList.add(name);
                              if (!name.isEmpty()) {
                                  name = name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -140,6 +139,7 @@ public class NameStorageManager{
                                  Files.createFile(nameFolder.resolve(RATINGS));
                              }
                              Recording recording = new Recording(recordingPath);
+                             AllRecordingsFromDataBase.add(recording);
                              newName.addSavedRecording(recording);
                          } catch (IOException e) {
                              //e.printStackTrace();
@@ -153,6 +153,26 @@ public class NameStorageManager{
             }
         });
         thread.start();
+        thread.join();
+        Task<Integer> normalising = new Task<Integer>() {
+            @Override protected Integer call() throws Exception {
+                for(Recording r:AllRecordingsFromDataBase) {
+                    String cmd = "ffmpeg -hide_banner -i " + "\""+r.getRecordingPath().toAbsolutePath().toString()+"\"" + " -af silenceremove=start_threshold=-35dB:start_threshold=-35dB:stop_duration=1:stop_periods=1:start_periods=1 "+"\"" + r.getRecordingPath().toAbsolutePath().toString().substring(0,r.getRecordingPath().toAbsolutePath().toString().length()-4)+"1"+Config.WAV_EXTENSION+"\"";
+                    r.switchToNormalised();
+                    ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+                    try {
+                        Process process = builder.start();
+                        process.waitFor();
+                    } catch (IOException | InterruptedException e){
+
+                    }
+                }
+                return null;
+            }
+        };
+        Thread normalisingThread = new Thread(normalising);
+        normalisingThread.setDaemon(true);
+        normalisingThread.start();
     }
 
     private NameStorageManager() {
@@ -162,22 +182,37 @@ public class NameStorageManager{
         namesList.clear();
     }
 
+    /**
+     * save all the user attempts recordings to the recording folder
+     */
     public void saveAllTempRecordings() { namesList.forEach(Name::saveTempRecordings); }
 
+    /**
+     * user decides to delete the attempts
+     */
     public void removeAllTempRecordings() {
         namesList.forEach(Name::removeTempRecordings);
     }
 
+    /**
+     * returns a names list
+     * @return List<Name></>
+     */
     public ObservableList<Name> getNamesList() {
         return FXCollections.observableList(namesList);
     }
 
+
+    /**
+     * Returns a list of name that is selected in the NameSelectingScreen
+     * @return List<Name></>
+     */
     public ObservableList<Name> getSelectedNamesList() {
         ObservableList<Name> list = namesList.stream()
                                              .filter(Name::getSelected)
                                              .collect(Collectors.toCollection(FXCollections::observableArrayList));
         if (NameSelectScreenController.RandomToggleOn()) {
-            Collections.shuffle(list);
+            Collections.shuffle(list);   //randomise the list if random toggle is on
             return list;
         }
         return list;
@@ -185,6 +220,7 @@ public class NameStorageManager{
 
     //This method returns a Name with the firstName and lastName provided if any one of them doesn't exist in the database
 //    return null
+    //this constructor is for testing
     public Name fusingTwoNames(String firstName,String lastName) throws IOException {
         Name first=null;
         Name last=null;
@@ -201,6 +237,10 @@ public class NameStorageManager{
         return new Name(first,last);
     }
 
+    /**
+     * add a new name at the beggining of the list
+     * @param newName
+     */
     public static void addNewNametoList(Name newName){
         namesList.add(0,newName);
     }
@@ -251,4 +291,5 @@ public class NameStorageManager{
         }
         return output;
     }
+
 }

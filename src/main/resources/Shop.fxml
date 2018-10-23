@@ -3,11 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -39,17 +37,6 @@
             <String fx:value="background" />
             <String fx:value="shadow" />
          </styleClass>
-         <children>
-            <MenuBar layoutX="1087.0" layoutY="2.0" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="1087.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="2.0">
-              <menus>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-         </children>
       </AnchorPane>
       <JFXButton fx:id="coinsCollectedCounter" alignment="CENTER" disable="true" prefHeight="197.0" prefWidth="361.0" text="Coins Collected: 0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <font>
@@ -63,22 +50,31 @@
       <GridView GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="4" />
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
          <children>
-            <ImageView fitHeight="160.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="135.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@css/background1.jpg" />
                </image>
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
             </ImageView>
             <Label fx:id="coin20" disable="true" text="20 coins" />
             <JFXButton fx:id="buyBackground1" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground1Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <VBox.margin>
+                  <Insets bottom="2.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
             </JFXButton>
          </children>
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <ImageView fx:id="buyBackground2" fitHeight="144.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="buyBackground2" fitHeight="137.0" fitWidth="236.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@css/background2.jpg" />
                </image>
@@ -88,15 +84,21 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <VBox.margin>
+                  <Insets bottom="2.0" />
+               </VBox.margin>
             </JFXButton>
          </children>
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <ImageView fitHeight="160.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="154.0" fitWidth="229.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@css/background4.jpg" />
                </image>
+               <VBox.margin>
+                  <Insets top="1.0" />
+               </VBox.margin>
             </ImageView>
             <Label fx:id="coin100" disable="true" text="100 coins" />
             <JFXButton fx:id="buyBackground4" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground4Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
@@ -108,10 +110,13 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
          <children>
-            <ImageView fitHeight="160.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="151.0" fitWidth="226.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@css/background3.jpg" />
                </image>
+               <VBox.margin>
+                  <Insets top="1.0" />
+               </VBox.margin>
             </ImageView>
             <Label disable="true" text="100 coins" />
             <JFXButton fx:id="buyBackground3" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground3Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
@@ -127,6 +132,9 @@
                <image>
                   <Image url="@css/background5.jpg" />
                </image>
+               <VBox.margin>
+                  <Insets top="1.0" />
+               </VBox.margin>
             </ImageView>
             <Label fx:id="coin150" disable="true" text="150 coins" />
             <JFXButton fx:id="buyBackground5" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onMouseClicked="#onBuyBackground5Clicked" stylesheets="@css/Material.css" text="Purchase and DownLoad">
